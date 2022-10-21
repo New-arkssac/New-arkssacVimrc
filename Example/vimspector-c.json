@@ -1,0 +1,21 @@
+{
+  "configurations": {
+    "Launch": {
+      "adapter": "vscode-cpptools",
+      "configuration": {
+        "name": "cdebug",
+        "type": "cdbg",
+        "filetyp": [
+          "c"
+        ],
+        "request": "launch",
+        "program": "${workspaceRoot}/${fileBasenameNoExtension}",
+        "args": [],
+        "cwd": "${workspaceRoot}",
+        "environment": [],
+        "externalConsole": "true",
+        "MIMode": "gdb"
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "json",
+    "c",
+    "vim",
+    "python"
+  ],
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/15.0.1/clangd_15.0.1/bin/clangd",
+  "suggest.completionItemKindLabels": {
+    "class": "\uf085",
+    "default": "\uf29c",
+    "function": " \u0192",
+    "folder": "\uf07c",
+    "file": "\uf15c",
+    "value": "\uf27d",
+    "text": "\uf035",
+    "interface": "\uf287",
+    "module": "\uf1b3",
+    "enum": "\uf079",
+    "enumMember": "\uf112",
+    "event": "\uf12a",
+    "property": "\uf00e",
+    "operator": "\uf162",
+    "method": "\uf1c9",
+    "keyword": "\uf08d",
+    "reference": "\uf044",
+    "snippet": "\uf121",
+    "struct": "\uf0e8",
+    "typeParameter": "\uf090",
+    "unit": "\uf032",
+    "variable": "\uf1b2",
+    "constant": "\uf1cb",
+    "color": "\uf1fc"
+  },
+  "diagnostic.errorSign": "\uf061",
+  "diagnostic.warningSign": "\uf071",
+  "diagnostic.infoSign": "\uf0d7",
+  "diagnostic.hintSign": "\uf0ec",
+  "diagnostic.displayByAle": false,
+  "diagnostic.refreshOnInsertMode": false,
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualTextPrefix": " \uf061  ",
+  "diagnostic.virtualText": true,
+  "list.previousKeymap": "<C-k>",
+  "list.nextKeymap": "<C-j>",
+  "translator.engines": [
+    "bing",
+    "youdao",
+    "haici"
+  ],
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "$HOME/.vim/coc-settings.json"
+  ],
+  "explorer.icon.expanded": "\uf07c",
+  "explorer.icon.collapsed": "\uf07b",
+  "explorer.icon.selected": "\uf14a",
+  "explorer.icon.hidden": "\uf141",
+  "explorer.icon.link": "\uf0c1",
+  "explorer.icon.readonly": "\uf06e",
+  "python.formatting.provider": "yapf",
+  "python.formatting.yapfArgs": [
+    "--style",
+    "{SPACES_AROUND_POWER_OPERATOR: True, SPACES_BEFORE_COMMENT: 1}"
+  ]
+}
