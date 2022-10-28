@@ -1,2 +1,6 @@
 **/autoload/*
 !**/autoload/plug.vim
+view/*
+.*
+^.*
+^.*/*

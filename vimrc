@@ -40,12 +40,14 @@ set shortmess+=c
 
 
 let g:mapleader=" "
+let @q='j'
+let @w='j'
 
 exec "nohlsearch"
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-noremap sk :vsplit $MYVIMRC<CR>
+noremap sk :e $MYVIMRC<CR>
 
 ""set termini colors
 syntax on 
@@ -94,6 +96,8 @@ inoremap [ []<ESC>i
 inoremap { {}<ESC>i
 inoremap <C-K> <ESC>A
 inoremap <C-o> <ESC>o
+
+source $HOME/.vim/config/vimspector.vim
 
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
@@ -148,6 +152,10 @@ nmap <silent><LEADER>= <Plug>(coc-diagnostic-next)
 " GOTO code navigation.
 nmap <silent>gd <Plug>(coc-definition)
 nmap <silent>gi <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> <LEADER>u :call ShowDocumentation()<CR>
@@ -163,13 +171,91 @@ endfunction
 ""Symbol rename
 nmap <LEADER>rn <Plug>(coc-rename)
 
+"==========Vista==========
+noremap al :Vista finder fzf<CR>
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_default_executive = 'ctags'
+let g:vista#renderer#icons = {
+  \ "subroutine": "\uf247", 
+  \ "method": "\uf1b2", 
+  \ "func": "\uf09a", 
+  \ "variables": "\uf1b2", 
+  \ "constructor": "\uf2b8",
+  \ "field": "\uf1cb",
+  \ "interfac": "\uf1e6",
+  \ "type": "\uf173",
+  \ "packages": "\uf1c4",
+  \ "property": "\uf155",
+  \ "implementation": "\uf111",
+  \ "default": "",
+  \ "augroup": "\uf248",
+  \ "macro": "\uf196",
+  \ "enumerator": "\uf175",
+  \ "const": "\uf08d",
+  \ "macros": "\uf047",
+  \ "map": "\uf03a",
+  \ "fields": "\uf056",
+  \ "functions": "\uf09a",
+  \ "enum": "\uf162",
+  \ "function": "\u0192",
+  \ "target": "\uf140",
+  \ "typedef": "\uf174",
+  \ "namespace": "\uf035",
+  \ "enummember": "\uf063",
+  \ "variable": "\uf1b2",
+  \ "modules": "",
+  \ "constant": "\uf08d",
+  \ "struct": "\uf0e8",
+  \ "types": "\uf174",
+  \ "module": "",
+  \ "typeParameter": "\uf174",
+  \ "package": "\uf1c4",
+  \ "class": "\uf085",
+  \ "member": "",
+  \ "var": "\uf1b2",
+  \ "union": "\uf0ec"
+  \ }
+
+"==========fzf==========
+noremap <C-b> :Buffers<CR>
+noremap <C-k> :Files<CR>
+noremap <C-f> :Rg<CR>
+noremap <F1> :Helptags<CR>
+
+"==========undotree==========
+nnoremap <LEADER>uu :UndotreeToggle<CR>
+if has("persistent_undo")
+   let target_path = expand('~/.vim/.undodir')
+
+    " create the directory and any parent directories
+    " if the location does not exist.
+    if !isdirectory(target_path)
+        call mkdir(target_path, "p", 0700)
+    endif
+
+    let &undodir=target_path
+    set undofile
+endif
+
+"==========vim-gitgutter==========
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ghn :GitGutterDiffOrig<CR>
+nmap ghp <Plug>(GitGutterPreviewHunk)
+
 call plug#begin('~/.vim/autoload')
 
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-dadbod', {'on': 'DBUI'}
+Plug 'kristijanhusak/vim-dadbod-ui', {'on': 'DBUI'}
+Plug 'mbbill/undotree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'puremourning/vimspector'
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
+Plug 'puremourning/vimspector', {'for': ['c', 'python']}
+Plug 'skywind3000/asynctasks.vim', {'for': ['c', 'python']}
+Plug 'skywind3000/asyncrun.vim', {'for': ['c', 'python']}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'rakr/vim-one'
 Plug 'vim-airline/vim-airline'
@@ -181,14 +267,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lock
 call plug#end()
 
 let g:coc_global_extensions = [
-      \'coc-vimlsp',
+      \ 'coc-vimlsp',
       \ 'coc-clangd',
       \ 'coc-syntax',
       \ 'coc-json',
       \ 'coc-translator',
       \ 'coc-snippets',
       \ 'coc-explorer',
-      \ 'coc-pyright'
+      \ '@yaegassy/coc-pylsp'
       \]
 
 let g:airline_theme='onehalfdark'
@@ -196,8 +282,16 @@ let g:airline_theme='onehalfdark'
 colorscheme onehalfdark
 let g:indentLine_enabled = 1
 
+autocmd FileType c,cpp,python,vim :call SourceFile()
 
-source $HOME/.vim/config/vimspector.vim
-autocmd BufNewFile,BufRead *.c,*.h :source $HOME/.vim/config/CProject.vim
-autocmd BufNewFile,BufRead *.py :source $HOME/.vim/config/PyProject.vim
-autocmd BufNewFile,BufRead *.c,*.py :source $HOME/.vim/config/asynctasks.vim
+function SourceFile() abort
+  source $HOME/.vim/config/asynctasks.vim
+  if &filetype == 'c' || &filetype == 'cpp'
+    source $HOME/.vim/config/CProject.vim
+  elseif &filetype == 'python'
+    source $HOME/.vim/config/PyProject.vim
+  elseif &filetype == 'vim'
+    source $HOME/.vim/config/VimProject.vim
+  endif
+  
+endfunction
