@@ -3,21 +3,21 @@ snippet cm "Comment Section" b
 endsnippet
 
 snippet ncm "Funcation Comment Section" b
-/* ${1:name}: ${2:content} */
+/* ${0}: <++> */
 endsnippet
 
 snippet todo "TODO Comment Section" b
-/* TODO: ${2:content} */
+/* TODO: ${0}  */
 endsnippet
 
 snippet main "make a int main" b
 int main() {
-  ${1:type} ${2:variable} = ${3:value};
+  ${0:type} <++> = <++>;
   return 0;
 }
 endsnippet
 
 snippet func "make a new funcation" 
-${1:type} ${2:func}(${3:type} ${4:parameter})${5:;}
+${0:type} <++>(<++> <++>)<++>
 endsnippet
 

@@ -7,6 +7,13 @@
 
 "Author:@New-arkssac
 "
+"
+"==========Auto get plug.vim on first start vim==========
+if empty(glob($HOME.'/.vim/autoload/plug.vim'))
+	silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 filetype on
 filetype indent on
@@ -57,45 +64,44 @@ map s <nop>
 map S :w<CR>
 map Q :q<CR>
 map R :source $MYVIMRC<CR>
-map <LEADER>q :qa<CR>
-map <LEADER>bn :buffers<CR>
-map <LEADER>n :bmodified<CR>
-map <LEADER>sp :set spell!<CR>
+map <silent><LEADER>q :qa<CR>
+map <silent><LEADER>sp :set spell!<CR>
 
-map sl :set splitright<CR>:vsplit<CR>
-map sh :set nosplitright<CR>:vsplit<CR>
-map sk :set splitbelow<CR>:split<CR>
-map sj :set nosplitbelow<CR>:split<CR>
+map <silent>sl :set splitright<CR>:vsplit<CR>
+map <silent>sh :set nosplitright<CR>:vsplit<CR>
+map <silent>sk :set splitbelow<CR>:split<CR>
+map <silent>sj :set nosplitbelow<CR>:split<CR>
 
-map <LEADER>j <C-w>j
-map <LEADER>k <C-w>k
-map <LEADER>h <C-w>h
-map <LEADER>l <C-w>l
+map <silent><nowait><LEADER>j <C-w>j
+map <silent><nowait><LEADER>k <C-w>k
+map <silent><nowait><LEADER>h <C-w>h
+map <silent><nowait><LEADER>l <C-w>l
 
 
-map  <down> :res -5<CR>
-map  <UP> :res +5<CR>
-map  <left> :vertical resize-5<CR>
-map  <right> :vertical resiz+5<CR>
+map <silent><down> :res +5<CR>
+map <silent><UP> :res -5<CR>
+map <silent><left> :vertical resize+5<CR>
+map <silent><right> :vertical resiz-5<CR>
 
-noremap <LEADER>st :tabe<CR>
-noremap <LEADER>si :+tabnext<CR>
-noremap <LEADER>su :-tabnext<CR>
+noremap <nowait><LEADER>st :tabe<CR>
+noremap <nowait><LEADER>si :+tabnext<CR>
+noremap <nowait><LEADER>su :-tabnext<CR>
 
-noremap H 5h
-noremap J 5j
-noremap K 5k
-noremap L 5l
+noremap <nowait><silent>H 5h
+noremap <nowait><silent>J 5j
+noremap <nowait><silent>K 5k
+noremap <nowait><silent>L 5l
+vnoremap <nowait><silent><C-y> "+y
+noremap <nowait><silent><C-p> "+p
 
 noremap <LEADER>f <Cmd>CocCommand explorer<CR>
 
-inoremap ' ''<ESC>i
-inoremap " ""<ESC>i
-inoremap ( ()<ESC>i
-inoremap [ []<ESC>i
-inoremap { {}<ESC>i
-inoremap <C-K> <ESC>A
-inoremap <C-o> <ESC>o
+inoremap ' ''<left>
+inoremap " ""<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap <C-o> <ESC>ji
 
 source $HOME/.vim/config/vimspector.vim
 
@@ -115,17 +121,9 @@ function! CheckBackspace() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" CheckProjectFile
-function CheckProjectFile(NAME)
-  if has(a:NAME) != 0
-    return " ".a:NAME." No such file or directory"
-  else
-    return " ".a:NAME." Done"
-  endif
-endfunction
-
 " find <++> replace it
-noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+noremap <silent><LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+inoremap <silent><buffer>,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 
 ""coc-snippets
 inoremap <silent><expr> <TAB>
@@ -137,7 +135,7 @@ inoremap <silent><expr> <TAB>
 function! CheckBackSpace() abort
   let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+endfunction
     
     let g:coc_snippet_next = '<tab>'
 
@@ -151,14 +149,12 @@ nmap <silent><LEADER>= <Plug>(coc-diagnostic-next)
 
 " GOTO code navigation.
 nmap <silent>gd <Plug>(coc-definition)
-nmap <silent>gi <Plug>(coc-references)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent>gy <Plug>(coc-type-definition)
+nmap <silent>gi <Plug>(coc-implementation)
+nmap <silent>gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> <LEADER>u :call ShowDocumentation()<CR>
+nnoremap <silent><nowait><LEADER>u :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -217,10 +213,9 @@ let g:vista#renderer#icons = {
   \ }
 
 "==========fzf==========
-noremap <C-b> :Buffers<CR>
-noremap <C-k> :Files<CR>
-noremap <C-f> :Rg<CR>
-noremap <F1> :Helptags<CR>
+noremap <silent><nowait><C-b> :Buffers<CR>
+noremap <silent><nowait>/ :Rg 
+noremap <silent><nowait><F1> :Helptags<CR>
 
 "==========undotree==========
 nnoremap <LEADER>uu :UndotreeToggle<CR>
@@ -238,13 +233,14 @@ if has("persistent_undo")
 endif
 
 "==========vim-gitgutter==========
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
+nmap ]h <Plug>(GitGutterStageHunk)
+nmap [h <Plug>(GitGutterUndoHunk)
 nmap ghn :GitGutterDiffOrig<CR>
 nmap ghp <Plug>(GitGutterPreviewHunk)
 
 call plug#begin('~/.vim/autoload')
 
+Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-dadbod', {'on': 'DBUI'}
 Plug 'kristijanhusak/vim-dadbod-ui', {'on': 'DBUI'}
@@ -253,9 +249,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'puremourning/vimspector', {'for': ['c', 'python']}
-Plug 'skywind3000/asynctasks.vim', {'for': ['c', 'python']}
-Plug 'skywind3000/asyncrun.vim', {'for': ['c', 'python']}
+Plug 'puremourning/vimspector', {'for': ['c', 'python', 'go']}
+Plug 'skywind3000/asynctasks.vim', {'for': ['c', 'python', 'go']}
+Plug 'skywind3000/asyncrun.vim', {'for': ['c', 'python', 'go']}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'rakr/vim-one'
 Plug 'vim-airline/vim-airline'
@@ -274,7 +270,9 @@ let g:coc_global_extensions = [
       \ 'coc-translator',
       \ 'coc-snippets',
       \ 'coc-explorer',
-      \ '@yaegassy/coc-pylsp'
+      \ 'coc-pyright',
+      \ 'coc-go',
+      \ 'coc-java'
       \]
 
 let g:airline_theme='onehalfdark'
@@ -282,16 +280,21 @@ let g:airline_theme='onehalfdark'
 colorscheme onehalfdark
 let g:indentLine_enabled = 1
 
-autocmd FileType c,cpp,python,vim :call SourceFile()
+autocmd FileType c,cpp,python,go,vim,sql :call SourceFile()
 
-function SourceFile() abort
+function SourceFile()
   source $HOME/.vim/config/asynctasks.vim
+  noremap u <CMD>call job_start(["/bin/zsh", "-c", "ctags -R -f .tags"])<CR>
   if &filetype == 'c' || &filetype == 'cpp'
     source $HOME/.vim/config/CProject.vim
   elseif &filetype == 'python'
     source $HOME/.vim/config/PyProject.vim
   elseif &filetype == 'vim'
     source $HOME/.vim/config/VimProject.vim
+  elseif &filetype == 'sql'
+    source $HOME/.vim/config/dbuisql.vim
+  elseif &filetype == 'go'
+    source $HOME/.vim/config/GoProject.vim
   endif
-  
 endfunction
+

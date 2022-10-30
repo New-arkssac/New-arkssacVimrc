@@ -1,12 +1,16 @@
 {
+  "coc.preferences.semanticTokensHighlights": false,
+  "coc.preferences.enableFloatHighlight": true,
+  "coc.preferences.snippetStatusText": "Ⓢ ",
   "coc.preferences.extensionUpdateCheck": "daily",
   "coc.preferences.formatOnSaveFiletypes": [
-    "json",
     "c",
+    "go",
     "vim",
+    "java",
+    "json",
     "python"
   ],
-  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/15.0.3/clangd_15.0.3/bin/clangd",
   "suggest.completionItemKindLabels": {
     "folder": "\uf07c",
     "file": "\uf15c",
@@ -60,6 +64,7 @@
     "var": "\uf1b2",
     "union": "\uf0ec"
   },
+  "diagnostic.signOffset": 1,
   "diagnostic.errorSign": "\uf061",
   "diagnostic.warningSign": "\uf071",
   "diagnostic.infoSign": "\uf0d7",
@@ -69,6 +74,8 @@
   "diagnostic.checkCurrentLine": true,
   "diagnostic.virtualTextPrefix": " \uf061  ",
   "diagnostic.virtualText": true,
+  "codeLens.enable": true,
+  "explorer.file.column.git.showIgnored": true,
   "list.previousKeymap": "<C-k>",
   "list.nextKeymap": "<C-j>",
   "translator.engines": [
@@ -90,5 +97,6 @@
   "python.formatting.yapfArgs": [
     "--style",
     "{SPACES_AROUND_POWER_OPERATOR: True, SPACES_BEFORE_COMMENT: 1}"
-  ]
+  ],
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/15.0.3/clangd_15.0.3/bin/clangd"
 }
