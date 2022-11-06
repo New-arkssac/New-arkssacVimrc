@@ -15,6 +15,8 @@ if empty(glob($HOME.'/.vim/autoload/plug.vim'))
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+source $HOME/.vim/test/test.vim
+
 filetype on
 filetype indent on
 filetype plugin on
@@ -25,16 +27,18 @@ set tabstop=2 " tab是4个空格
 set shiftwidth=2
 set tw=0
 set indentexpr=
+set textwidth=100
 set softtabstop=2
 set encoding=utf-8 " 设置utf8编码
 set t_Co=256 " 采用256色
 set backspace=indent,eol,start
-""set relativenumber
+"set relative number
 set tags=./.tags,.tags,./**/.tags
 set showcmd
 set wildmenu
 set wrap
 set scrolloff=5
+set sidescroll=20
 set laststatus=2
 set showmatch
 set expandtab
@@ -42,13 +46,13 @@ set hlsearch
 set incsearch
 set smartcase
 set ignorecase
+set ttimeout
+set ttimeoutlen=100
 set updatetime=100
 set shortmess+=c
 
 
 let g:mapleader=" "
-let @q='j'
-let @w='j'
 
 exec "nohlsearch"
 
@@ -93,6 +97,7 @@ noremap <nowait><silent>K 5k
 noremap <nowait><silent>L 5l
 vnoremap <nowait><silent><C-y> "+y
 noremap <nowait><silent><C-p> "+p
+inoremap <nowait><silent><C-p> <ESC>"+pi
 
 noremap <LEADER>f <Cmd>CocCommand explorer<CR>
 
@@ -101,9 +106,7 @@ inoremap " ""<left>
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
-inoremap <C-o> <ESC>ji
-
-source $HOME/.vim/config/vimspector.vim
+" inoremap <C-o> <ESC>ji
 
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
@@ -144,11 +147,11 @@ nmap <Leader>t <Plug>(coc-translator-p)
 vmap <Leader>t <Plug>(coc-translator-pv)
 
 "" find error
-nmap <silent><LEADER>- <Plug>(coc-diagnostic-prev) 
-nmap <silent><LEADER>= <Plug>(coc-diagnostic-next)
+nmap <silent><LEADER>= <Plug>(coc-diagnostic-prev) 
+nmap <silent><LEADER>- <Plug>(coc-diagnostic-next)
 
 " GOTO code navigation.
-nmap <silent>gd <Plug>(coc-definition)
+" nmap <silent>gd <Plug>(coc-definition)
 nmap <silent>gy <Plug>(coc-type-definition)
 nmap <silent>gi <Plug>(coc-implementation)
 nmap <silent>gr <Plug>(coc-references)
@@ -214,11 +217,11 @@ let g:vista#renderer#icons = {
 
 "==========fzf==========
 noremap <silent><nowait><C-b> :Buffers<CR>
-noremap <silent><nowait>/ :Rg 
+noremap <nowait><C-s> :Rg 
 noremap <silent><nowait><F1> :Helptags<CR>
 
 "==========undotree==========
-nnoremap <LEADER>uu :UndotreeToggle<CR>
+nnoremap <nowait><LEADER>uu :UndotreeToggle<CR>
 if has("persistent_undo")
    let target_path = expand('~/.vim/.undodir')
 
@@ -238,8 +241,11 @@ nmap [h <Plug>(GitGutterUndoHunk)
 nmap ghn :GitGutterDiffOrig<CR>
 nmap ghp <Plug>(GitGutterPreviewHunk)
 
+
+"==========vim-plug==========
 call plug#begin('~/.vim/autoload')
 
+Plug 'brooth/far.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-dadbod', {'on': 'DBUI'}
@@ -253,14 +259,17 @@ Plug 'puremourning/vimspector', {'for': ['c', 'python', 'go']}
 Plug 'skywind3000/asynctasks.vim', {'for': ['c', 'python', 'go']}
 Plug 'skywind3000/asyncrun.vim', {'for': ['c', 'python', 'go']}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'rakr/vim-one'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'joshdick/onedark.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()
+
+source $HOME/.vim/config/vimspector.vim
+source $HOME/.vim/config/asynctasks.vim
 
 let g:coc_global_extensions = [
       \ 'coc-vimlsp',
@@ -275,26 +284,10 @@ let g:coc_global_extensions = [
       \ 'coc-java'
       \]
 
-let g:airline_theme='onehalfdark'
-
-colorscheme onehalfdark
-let g:indentLine_enabled = 1
-
-autocmd FileType c,cpp,python,go,vim,sql :call SourceFile()
-
-function SourceFile()
-  source $HOME/.vim/config/asynctasks.vim
-  noremap u <CMD>call job_start(["/bin/zsh", "-c", "ctags -R -f .tags"])<CR>
-  if &filetype == 'c' || &filetype == 'cpp'
-    source $HOME/.vim/config/CProject.vim
-  elseif &filetype == 'python'
-    source $HOME/.vim/config/PyProject.vim
-  elseif &filetype == 'vim'
-    source $HOME/.vim/config/VimProject.vim
-  elseif &filetype == 'sql'
-    source $HOME/.vim/config/dbuisql.vim
-  elseif &filetype == 'go'
-    source $HOME/.vim/config/GoProject.vim
-  endif
-endfunction
+let g:airline_theme='onehalflight'
+let g:onedark_termcolors=256
+colorscheme onehalflight
+highlight Search cterm=italic,bold,underline ctermbg=247
+highlight IncSearch cterm=italic,bold,underline ctermbg=247
+highlight Visual term=reverse cterm=italic,bold
 

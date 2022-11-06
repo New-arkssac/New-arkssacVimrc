@@ -1,6 +1,10 @@
 **/autoload/*
 !**/autoload/plug.vim
 view/*
+spell/*
+test/*
+*log*
+*log$
 .*
 ^.*
 ^.*/*

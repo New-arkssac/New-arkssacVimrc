@@ -1,7 +1,4 @@
-source $HOME/.vim/config/popup.vim
-nnoremap <C-l> I// <ESC>
-nnoremap  I<DEL><DEL>:w<CR>
-inoremap <C-l> <ESC>I//<ESC>
+source $HOME/.vim/config/libproject.vim
 
 noremap <buffer> <CMD>call InitialzeGoProject()<CR>
 noremap <buffer><LEADER>ck <CMD>call job_start(["/bin/zsh", "-c", "ctags -R -f .tags"], {"exit_cb": "CheckCtags"})<CR>
@@ -23,9 +20,19 @@ function InitialzeGoProject()
     call Pop_Waring("go.mod already exists")
     return  
   elseif stridx(l:mod, "go mod cannot determine module path for source directory") >= 0
-    call Pop_Waring("go mod cannot determine module path for source directory")
+    call Pop_Warning("go mod cannot determine module path for source directory")
     return
   endif
 
   call Pop_Done("Go Initialzetion Procject Finish")
 endfunction
+
+" function Commentary()
+  " normal! I// 
+" endfunction
+" 
+" function UnCommentary()
+  " normal! I
+  " normal! 3dl
+" endfunction
+" 
