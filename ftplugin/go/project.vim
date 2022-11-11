@@ -10,21 +10,23 @@ function InitialzeGoProject()
   if !filereadable(".vimspector.json")
     let l:messages = system("cp $HOME/.vim/Example/vimspector-go.json `pwd`/.vimspector.json")
     if strlen(l:messages) != 0
-      call Pop_Waring(l:messages)
+      call Pop_Warning(l:messages)
       return
     endif
+  else
+    call Pop_Done("Set Debug finish")
   endif
 
   let l:mod = system("go mod init ".system("basename `pwd`"))
   if stridx(l:mod, "go.mod already exists") >= 0
-    call Pop_Waring("go.mod already exists")
+    call Pop_Warning("go.mod already exists")
     return  
   elseif stridx(l:mod, "go mod cannot determine module path for source directory") >= 0
     call Pop_Warning("go mod cannot determine module path for source directory")
     return
+  else
+    call Pop_Done("Go mod finish")
   endif
-
-  call Pop_Done("Go Initialzetion Procject Finish")
 endfunction
 
 " function Commentary()

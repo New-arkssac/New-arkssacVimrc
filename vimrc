@@ -23,8 +23,8 @@ filetype plugin on
 filetype plugin indent on
 
 set number "设置行号
-set tabstop=2 " tab是4个空格
-set shiftwidth=2
+set tabstop=4 " tab是4个空格
+set shiftwidth=4
 set tw=0
 set indentexpr=
 set textwidth=100
@@ -109,9 +109,9 @@ inoremap { {}<left>
 " inoremap <C-o> <ESC>ji
 
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+     \ coc#pum#visible() ? coc#pum#next(1) :
+     \ CheckBackspace() ? "\<Tab>" :
+     \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
@@ -284,9 +284,9 @@ let g:coc_global_extensions = [
       \ 'coc-java'
       \]
 
-let g:airline_theme='onehalflight'
+let g:airline_theme='onedark'
 let g:onedark_termcolors=256
-colorscheme onehalflight
+colorscheme onehalfdark
 highlight Search cterm=italic,bold,underline ctermbg=247
 highlight IncSearch cterm=italic,bold,underline ctermbg=247
 highlight Visual term=reverse cterm=italic,bold

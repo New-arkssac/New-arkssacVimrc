@@ -9,16 +9,8 @@ function InitialzeClangPorject()
     if strlen(l:makemasseage) != 0
       call Pop_Warning(l:makemasseage)
     endif
+  else
+      call Pop_Done("Set Debug Finish")
   endif
-
-  call Pop_Done("Clang Initialzetion Finish")
 endfunction
 
-" function Commentary()
-  " normal! I// 
-" endfunction
-" 
-" function UnCommentary()
-  " normal! I
-  " normal! 3dl
-" endfunction

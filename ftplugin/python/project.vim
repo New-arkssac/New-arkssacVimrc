@@ -8,9 +8,11 @@ function InitialzeGoProject(chann, msg)
   if !filereadable(l:pwd.".vimspector.json")
     let l:makemasseage = system("cp $HOME/.vim/Example/vimspector-python.json `pwd`/.vimspector.json")
     if strlen(l:makemasseage) != 0
-      echom l:makemasseage
+      call Pop_Warning(l:makemasseage)
       return
     endif
+  else
+      call Pop_Done("Set Debug Finish")
   endif
 
   if !filereadable(l:pwd."/venv/bin/python")
@@ -18,26 +20,19 @@ function InitialzeGoProject(chann, msg)
     if strlen(l:makemasseage) != 0
       call Pop_Waring(l:makemasseage)
       return
+    else
+      call Pop_Done("Venv initialized Finish")
     endif
     let l:makemasseage =  system("./venv/bin/pip install yapf")
     if stridx(l:makemasseage, "ERROR") >= 0
-      call Pop_Waring(l:makemasseage)
+      call Pop_Warning(l:makemasseage)
       return
+    else
+      call Pop_Done("Venv install yapf Finish")
     endif
   else
     call Pop_Warning("It's already initialized, don't try again'")
     return
   endif
-  
-  call Pop_Done("Python Initialzetion Finish")
 endfunction
 
-
-" function Commentary()
-  " normal! I# 
-" endfunction
-" 
-" function UnCommentary()
-  " normal! I
-  " normal! 2dl
-" endfunction
