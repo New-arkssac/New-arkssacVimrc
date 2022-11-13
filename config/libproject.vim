@@ -16,6 +16,10 @@ if &filetype == "vim"
   let g:cm = "\" "
 elseif &filetype == "python"
   let g:cm = "# "
+elseif &filetype == "lua"
+  let g:cm = "-- "
+  let g:strnum = 3
+  let g:num = 2
 elseif &filetype == "go" || &filetype == "c" || &filetype == "cpp"
   let g:cm = "// "
   let g:strnum = 3
@@ -26,11 +30,19 @@ function Pop_Warning(msg)
     let message = "[WARNING] ".a:msg
     let buf = nvim_create_buf(v:false, v:true)
     call nvim_buf_set_lines(buf, 0, -1, v:true, [message])
-    let opts = {'relative': 'win', 'width': strlen(message), 'height': 1, 'col': 200 - strlen(a:msg),
-        \ 'row': 0+len(s:list), 'anchor': 'NW', 'style': 'minimal'}
+    let opts = {
+        \ 'relative': 'win',
+        \ 'width': strlen(message),
+        \ 'height': 1,
+        \ 'col': 200 - strlen(a:msg),
+        \ 'row': 0+len(s:list),
+        \ 'anchor': 'NW',
+        \ 'style': 'minimal'
+        \}
     let win = nvim_open_win(buf, 0, opts)
     hi def MyWarning ctermfg=red ctermbg=237
     call nvim_win_set_option(win, 'winhl', 'Normal:MyWarning')
+
     call add(s:list, win)
     call timer_start(3000, "Close_Pop", {"repeat": 1})
 endfunction

@@ -16,8 +16,6 @@ if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
 endif
 
 
-source $HOME/.config/nvim/test/test.vim
-
 filetype on
 filetype indent on
 filetype plugin on
@@ -64,6 +62,7 @@ noremap sk :e $MYVIMRC<CR>
 ""set termini colors
 syntax on 
 
+lua require("test")
 map ; :
 map s <nop>
 map S :w<CR>
@@ -248,9 +247,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'puremourning/vimspector', {'for': ['c', 'python', 'go']}
-Plug 'skywind3000/asynctasks.vim', {'for': ['c', 'python', 'go']}
-Plug 'skywind3000/asyncrun.vim', {'for': ['c', 'python', 'go']}
+Plug 'puremourning/vimspector', {'for': ['c', 'python', 'go', 'lua']}
+Plug 'skywind3000/asynctasks.vim', {'for': ['c', 'python', 'go', 'lua']}
+Plug 'skywind3000/asyncrun.vim', {'for': ['c', 'python', 'go', 'lua']}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -279,7 +278,6 @@ let g:coc_global_extensions = [
       \ 'coc-git',
       \ 'coc-stylua'
       \]
-
 let g:airline_theme='onedark'
 let g:onedark_termcolors=256
 colorscheme onehalfdark

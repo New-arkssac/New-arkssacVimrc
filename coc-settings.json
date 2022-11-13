@@ -100,5 +100,8 @@
         "{SPACES_AROUND_POWER_OPERATOR: True, SPACES_BEFORE_COMMENT: 1}"
     ],
     "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/15.0.3/clangd_15.0.3/bin/clangd",
-    "Lua.telemetry.enable": false
+    "Lua.telemetry.enable": true,
+    "Lua.diagnostics.globals": [
+        "vim"
+    ]
 }
