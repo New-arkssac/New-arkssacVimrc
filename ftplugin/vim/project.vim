@@ -1,1 +1,2 @@
-source $HOME/.vim/config/libproject.vim
+source $HOME/.config/nvim/config/libproject.vim
+

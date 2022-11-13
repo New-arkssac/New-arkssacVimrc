@@ -9,13 +9,14 @@
 "
 "
 "==========Auto get plug.vim on first start vim==========
-if empty(glob($HOME.'/.vim/autoload/plug.vim'))
-	silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
+if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
+	silent !curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs
 				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-source $HOME/.vim/test/test.vim
+
+source $HOME/.config/nvim/test/test.vim
 
 filetype on
 filetype indent on
@@ -108,10 +109,17 @@ inoremap [ []<left>
 inoremap { {}<left>
 " inoremap <C-o> <ESC>ji
 
+"==========Netrw==========
+let g:netrw_altv = 1
+let g:netrw_browse_split = 2
+let g:netrw_liststyle = 3 
+let g:netrw_banner = 1
+let g:netrw_winsize = 20
+
 inoremap <silent><expr> <TAB>
-     \ coc#pum#visible() ? coc#pum#next(1) :
-     \ CheckBackspace() ? "\<Tab>" :
-     \ coc#refresh()
+    \ coc#pum#visible() ? coc#pum#next(1) :
+    \ CheckBackspace() ? "\<Tab>" :
+    \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
@@ -128,20 +136,6 @@ endfunction
 noremap <silent><LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 inoremap <silent><buffer>,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 
-""coc-snippets
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-            \ CheckBackSpace() ? "\<TAB>" :
-                  \ coc#refresh()
-
-function! CheckBackSpace() abort
-  let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-    
-    let g:coc_snippet_next = '<tab>'
-
 ""coc-translator
 nmap <Leader>t <Plug>(coc-translator-p)
 vmap <Leader>t <Plug>(coc-translator-pv)
@@ -152,8 +146,8 @@ nmap <silent><LEADER>- <Plug>(coc-diagnostic-next)
 
 " GOTO code navigation.
 " nmap <silent>gd <Plug>(coc-definition)
-nmap <silent>gy <Plug>(coc-type-definition)
-nmap <silent>gi <Plug>(coc-implementation)
+" nmap <silent>gy <Plug>(coc-type-definition)
+" nmap <silent>gi <Plug>(coc-implementation)
 nmap <silent>gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
@@ -223,7 +217,7 @@ noremap <silent><nowait><F1> :Helptags<CR>
 "==========undotree==========
 nnoremap <nowait><LEADER>uu :UndotreeToggle<CR>
 if has("persistent_undo")
-   let target_path = expand('~/.vim/.undodir')
+   let target_path = expand('~/.config/nvim/.undodir')
 
     " create the directory and any parent directories
     " if the location does not exist.
@@ -243,11 +237,10 @@ nmap ghp <Plug>(GitGutterPreviewHunk)
 
 
 "==========vim-plug==========
-call plug#begin('~/.vim/autoload')
+call plug#begin('~/.config/nvim/autoload')
 
 Plug 'brooth/far.vim'
 Plug 'kshenoy/vim-signature'
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-dadbod', {'on': 'DBUI'}
 Plug 'kristijanhusak/vim-dadbod-ui', {'on': 'DBUI'}
 Plug 'mbbill/undotree'
@@ -268,8 +261,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lock
 
 call plug#end()
 
-source $HOME/.vim/config/vimspector.vim
-source $HOME/.vim/config/asynctasks.vim
+source $HOME/.config/nvim/config/vimspector.vim
+source $HOME/.config/nvim/config/asynctasks.vim
 
 let g:coc_global_extensions = [
       \ 'coc-vimlsp',
@@ -281,7 +274,10 @@ let g:coc_global_extensions = [
       \ 'coc-explorer',
       \ 'coc-pyright',
       \ 'coc-go',
-      \ 'coc-java'
+      \ 'coc-java',
+      \ 'coc-sumneko-lua',
+      \ 'coc-git',
+      \ 'coc-stylua'
       \]
 
 let g:airline_theme='onedark'
@@ -290,4 +286,5 @@ colorscheme onehalfdark
 highlight Search cterm=italic,bold,underline ctermbg=247
 highlight IncSearch cterm=italic,bold,underline ctermbg=247
 highlight Visual term=reverse cterm=italic,bold
-
+highlight Pmenu ctermfg=247 ctermbg=236 guibg=#dcdfe4
+highlight Pmenusel ctermbg=239 guibg=#474e5d

@@ -4,6 +4,11 @@ nnoremap  :call UnCommentary()<CR>
 vnoremap  :call UnCommentary()<CR>
 inoremap <C-l> <ESC>:call Commentary()<CR>
 
+let s:list = []
+let g:job_option = {}
+let s:stderr = []
+let s:stdout = []
+
 let g:num = 1
 let g:strnum = 2
 let g:dnum = 0
@@ -17,40 +22,60 @@ elseif &filetype == "go" || &filetype == "c" || &filetype == "cpp"
   let g:num = 2
 endif
 
-
 function Pop_Warning(msg)
-  let l:pop_dict = {
-   \ "line": 1,
-   \ "col": 200, 
-   \ "minwidth": 5,
-   \ "pos": "topright",
-   \ "time": 10000,
-   \ "highlight": "WarningMsg",
-   \ "close": "click",
-   \}
-  call popup_notification(a:msg, l:pop_dict)
+    let message = "[WARNING] ".a:msg
+    let buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(buf, 0, -1, v:true, [message])
+    let opts = {'relative': 'win', 'width': strlen(message), 'height': 1, 'col': 200 - strlen(a:msg),
+        \ 'row': 0+len(s:list), 'anchor': 'NW', 'style': 'minimal'}
+    let win = nvim_open_win(buf, 0, opts)
+    hi def MyWarning ctermfg=red ctermbg=237
+    call nvim_win_set_option(win, 'winhl', 'Normal:MyWarning')
+    call add(s:list, win)
+    call timer_start(3000, "Close_Pop", {"repeat": 1})
 endfunction
 
 function Pop_Done(msg)
-  let l:pop_dict = {
-   \ "line": 1,
-   \ "col": 200, 
-   \ "minwidth": 5,
-   \ "time": 2000,
-   \ "pos": "topright",
-   \ "highlight": "Title",
-   \ "close": "click",
-   \}
-  echom a:msg
-  call popup_notification(a:msg, l:pop_dict)
+    let message = "[INFO] ".a:msg
+    let buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(buf, 0, -1, v:true, [message])
+    let opts = {'relative': 'win', 'width': strlen(message), 'height': 1, 'col': 200 - strlen(a:msg),
+        \ 'row': 0+len(s:list), 'anchor': 'NW', 'style': 'minimal'}
+    let win = nvim_open_win(buf, 0, opts)
+    hi def MyDone ctermfg=green ctermbg=237
+    call nvim_win_set_option(win, 'winhl', 'Normal:MyDone')
+    call add(s:list, win)
+    call timer_start(3000, "Close_Pop", {"repeat": 1})
 endfunction
 
-function CheckCtags(chann, msg)
-  if !filereadable(".tags") || a:msg != 0
-    call Pop_Warning("make .tags error")
-   return
-  endif
-  call Pop_Done("make .tags Done")
+function Close_Pop(timer)
+    call timer_info(a:timer)
+    call nvim_win_close(s:list[0], v:true)
+    call remove(s:list, 0)
+endfunction
+
+function g:job_option.on_stderr(chan_id, data, event) abort
+   call extend(s:stderr, a:data)
+endfunction
+
+function g:job_option.on_stdout(chan_id, data, event) abort
+   call extend(s:stdout, a:data)
+endfunction
+
+function g:job_option.on_exit(chan_id, data, event) abort
+    if a:data != 0
+        for msg in s:stderr
+            call Pop_Warning(msg)
+            call remove(s:stderr, 0)
+        endfor
+    elseif !empty(s:stdout)
+        for msg in s:stderr
+            call Pop_Done(msg)
+            call remove(s:stdout, 0)
+        endfor
+    else
+        call Pop_Done("make .tags Finish")
+    endif
 endfunction
 
 function Commentary()
