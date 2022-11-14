@@ -1,6 +1,6 @@
 local keymap = vim.keymap.set
 local opt = {silent = true, nowait = true}
-local map = {"n", "i", "v", "x"}
+local map = {"n", "v", "x"}
 
 keymap("n", "<M-s>k", ":e $MYVIMRC<CR>", opt) -- any time any where edit init.lua
 keymap(map, ";", ":", nil) -- ; map :
@@ -28,7 +28,7 @@ keymap("n", "si", ":+tabnext<CR>", opt) -- left tabs
 keymap("n", "su", ":-tabnext<CR>", opt) -- right tabs
 keymap("v", "<C-c>", [["+y]], opt) -- select some string copy into clipboard
 keymap("n", "<C-p>", [["+p]], opt) -- normal mod paste from clipborad
-keymap("i", "<C-p>", [["+p]], opt) -- insert mod paste from clipborad
+keymap("i", "<C-p>", [[<ESC>"+p]], opt) -- insert mod paste from clipborad
 keymap("i", "'", [[''<left>]], opt) -- ' -> ''
 keymap("i", "\"", [[""<left>]], opt) -- " -> ""
 keymap("i", "(", [[()<left>]], opt) -- ( -> ()

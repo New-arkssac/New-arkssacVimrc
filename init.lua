@@ -7,6 +7,12 @@
 
 -- Author:@New-arkssac
 
-require("lib.option")
-require("lib.keymap")
-vim.cmd("nohlsearch")
+require "lib.options"
+require "lib.keymaps"
+require "lib.plugins"
+require "lib.plugins"
+require "lib.scheme"
+require "lib.nvimtree"
+require "lib.cmp"
+require "lib.lsp"
+vim.cmd "nohlsearch"
