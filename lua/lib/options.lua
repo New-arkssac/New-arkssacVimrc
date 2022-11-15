@@ -1,29 +1,29 @@
---  __  ____   ____     _____ __  __ ____   ____ 
+--  __  ____   ____     _____ __  __ ____   ____
 -- |  \/  \ \ / /\ \   / /_ _|  \/  |  _ \ / ___|
--- | |\/| |\ V /  \ \ / / | || |\/| | |_) | |    
--- | |  | | | |    \ V /  | || |  | |  _ <| |___ 
+-- | |\/| |\ V /  \ \ / / | || |\/| | |_) | |
+-- | |  | | | |    \ V /  | || |  | |  _ <| |___
 -- |_|  |_| |_|     \_/  |___|_|  |_|_| \_\\____|
---                                               
+--
 
 -- Author:@New-arkssac
 
-vim.cmd.filetype = {"on", indent = "on", plugin = "on"}
+vim.cmd.filetype = { "on", indent = "on", plugin = "on" }
 vim.opt.number = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.softtabstop=2
+vim.opt.softtabstop = 2
 vim.opt.tw = 0
 vim.opt.textwidth = 100
-vim.opt.encoding="utf-8"
-vim.opt.softtabstop=2
-vim.opt.backspace={"indent", "eol", "start"}
-vim.opt.tags={"./.tags", ".tags","./**/.tags"}
+vim.opt.encoding = "utf-8"
+vim.opt.softtabstop = 2
+vim.opt.backspace = { "indent", "eol", "start" }
+vim.opt.tags = { "./.tags", ".tags", "./**/.tags" }
 vim.opt.showcmd = true
 vim.opt.wildmenu = true
 vim.opt.wrap = true
-vim.opt.scrolloff=5
-vim.opt.sidescroll=20
-vim.opt.laststatus=2
+vim.opt.scrolloff = 5
+vim.opt.sidescroll = 20
+vim.opt.laststatus = 2
 vim.opt.showmatch = true
 vim.opt.expandtab = true
 vim.opt.hlsearch = true
@@ -31,16 +31,17 @@ vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.opt.ttimeout = true
-vim.opt.ttimeoutlen=100
-vim.opt.updatetime=100
+vim.opt.ttimeoutlen = 100
+vim.opt.updatetime = 100
 vim.opt.shortmess:append "c"
-vim.g.mapleader=" "
+vim.g.mapleader = " "
 vim.opt.syntax = "on"
-vim.cmd[[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]
--- 
+vim.opt.termguicolors = true
+vim.cmd [[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]
+--
 -- noremap sk :e $MYVIMRC<CR>
--- 
--- 
+--
+--
 -- map ; :
 -- map s <nop>
 -- map S :w<CR>
@@ -48,27 +49,27 @@ vim.cmd[[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "
 -- map R :source $MYVIMRC<CR>
 -- map <silent><LEADER>q :qa<CR>
 -- map <silent><LEADER>sp :set spell!<CR>
--- 
+--
 -- map <silent>sl :set splitright<CR>:vsplit<CR>
 -- map <silent>sh :set nosplitright<CR>:vsplit<CR>
 -- map <silent>sk :set splitbelow<CR>:split<CR>
 -- map <silent>sj :set nosplitbelow<CR>:split<CR>
--- 
+--
 -- map <silent><nowait><LEADER>j <C-w>j
 -- map <silent><nowait><LEADER>k <C-w>k
 -- map <silent><nowait><LEADER>h <C-w>h
 -- map <silent><nowait><LEADER>l <C-w>l
--- 
--- 
+--
+--
 -- map <silent><down> :res +5<CR>
 -- map <silent><UP> :res -5<CR>
 -- map <silent><left> :vertical resize+5<CR>
 -- map <silent><right> :vertical resiz-5<CR>
--- 
+--
 -- noremap <nowait><LEADER>st :tabe<CR>
 -- noremap <nowait><LEADER>si :+tabnext<CR>
 -- noremap <nowait><LEADER>su :-tabnext<CR>
--- 
+--
 -- noremap <nowait><silent>H 5h
 -- noremap <nowait><silent>J 5j
 -- noremap <nowait><silent>K 5k
@@ -76,60 +77,60 @@ vim.cmd[[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "
 -- vnoremap <nowait><silent><C-y> "+y
 -- noremap <nowait><silent><C-p> "+p
 -- inoremap <nowait><silent><C-p> <ESC>"+pi
--- 
+--
 -- noremap <LEADER>f <Cmd>CocCommand explorer<CR>
--- 
+--
 -- inoremap ' ''<left>
 -- inoremap " ""<left>
 -- inoremap ( ()<left>
 -- inoremap [ []<left>
 -- inoremap { {}<left>
 -- " inoremap <C-o> <ESC>ji
--- 
+--
 -- "==========Netrw==========
 -- let g:netrw_altv = 1
 -- let g:netrw_browse_split = 2
--- let g:netrw_liststyle = 3 
+-- let g:netrw_liststyle = 3
 -- let g:netrw_banner = 1
 -- let g:netrw_winsize = 20
--- 
+--
 -- inoremap <silent><expr> <TAB>
 --     \ coc#pum#visible() ? coc#pum#next(1) :
 --     \ CheckBackspace() ? "\<Tab>" :
 --     \ coc#refresh()
 -- inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
--- 
+--
 -- " Make <CR> to accept selected completion item or notify coc.nvim to format
 -- " <C-g>u breaks current undo, please make your own choice.
 -- inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 --                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
--- 
+--
 -- function! CheckBackspace() abort
 --   let col = col('.') - 1
 --   return !col || getline('.')[col - 1]  =~# '\s'
 -- endfunction
--- 
+--
 -- " find <++> replace it
 -- noremap <silent><LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 -- inoremap <silent><buffer>,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
--- 
+--
 -- ""coc-translator
 -- nmap <Leader>t <Plug>(coc-translator-p)
 -- vmap <Leader>t <Plug>(coc-translator-pv)
--- 
+--
 -- "" find error
--- nmap <silent><LEADER>= <Plug>(coc-diagnostic-prev) 
+-- nmap <silent><LEADER>= <Plug>(coc-diagnostic-prev)
 -- nmap <silent><LEADER>- <Plug>(coc-diagnostic-next)
--- 
+--
 -- " GOTO code navigation.
 -- " nmap <silent>gd <Plug>(coc-definition)
 -- " nmap <silent>gy <Plug>(coc-type-definition)
 -- " nmap <silent>gi <Plug>(coc-implementation)
 -- nmap <silent>gr <Plug>(coc-references)
--- 
+--
 -- " Use K to show documentation in preview window.
 -- nnoremap <silent><nowait><LEADER>u :call ShowDocumentation()<CR>
--- 
+--
 -- function! ShowDocumentation()
 --   if CocAction('hasProvider', 'hover')
 --     call CocActionAsync('doHover')
@@ -137,85 +138,85 @@ vim.cmd[[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "
 --     call feedkeys('K', 'in')
 --   endif
 -- endfunction
--- 
+--
 -- ""Symbol rename
 -- nmap <LEADER>rn <Plug>(coc-rename)
--- 
+--
 -- "==========Vista==========
 -- noremap al :Vista finder fzf<CR>
 -- let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 -- let g:vista_default_executive = 'ctags'
 -- let g:vista#renderer#icons = {
---   \ "subroutine": "\uf247", 
---   \ "method": "\uf1b2", 
---   \ "func": "\uf09a", 
---   \ "variables": "\uf1b2", 
---   \ "constructor": "\uf2b8",
---   \ "field": "\uf1cb",
---   \ "interfac": "\uf1e6",
---   \ "type": "\uf173",
---   \ "packages": "\uf1c4",
---   \ "property": "\uf155",
---   \ "implementation": "\uf111",
+--   \ "subroutine": "\",
+--   \ "method": "\",
+--   \ "func": "\",
+--   \ "variables": "\",
+--   \ "constructor": "\",
+--   \ "field": "\",
+--   \ "interfac": "\",
+--   \ "type": "\",
+--   \ "packages": "\",
+--   \ "property": "\",
+--   \ "implementation": "\",
 --   \ "default": "",
---   \ "augroup": "\uf248",
---   \ "macro": "\uf196",
---   \ "enumerator": "\uf175",
---   \ "const": "\uf08d",
---   \ "macros": "\uf047",
---   \ "map": "\uf03a",
---   \ "fields": "\uf056",
---   \ "functions": "\uf09a",
---   \ "enum": "\uf162",
---   \ "function": "\u0192",
---   \ "target": "\uf140",
---   \ "typedef": "\uf174",
---   \ "namespace": "\uf035",
---   \ "enummember": "\uf063",
---   \ "variable": "\uf1b2",
+--   \ "augroup": "\",
+--   \ "macro": "\",
+--   \ "enumerator": "\",
+--   \ "const": "\",
+--   \ "macros": "\",
+--   \ "map": "\",
+--   \ "fields": "\",
+--   \ "functions": "\",
+--   \ "enum": "\",
+--   \ "function": "\ƒ",
+--   \ "target": "\",
+--   \ "typedef": "\",
+--   \ "namespace": "\",
+--   \ "enummember": "\",
+--   \ "variable": "\",
 --   \ "modules": "",
---   \ "constant": "\uf08d",
---   \ "struct": "\uf0e8",
---   \ "types": "\uf174",
+--   \ "constant": "\",
+--   \ "struct": "\",
+--   \ "types": "\",
 --   \ "module": "",
---   \ "typeParameter": "\uf174",
---   \ "package": "\uf1c4",
---   \ "class": "\uf085",
+--   \ "typeParameter": "\",
+--   \ "package": "\",
+--   \ "class": "\",
 --   \ "member": "",
---   \ "var": "\uf1b2",
---   \ "union": "\uf0ec"
+--   \ "var": "\",
+--   \ "union": "\"
 --   \ }
--- 
+--
 -- "==========fzf==========
 -- noremap <silent><nowait><C-b> :Buffers<CR>
--- noremap <nowait><C-s> :Rg 
+-- noremap <nowait><C-s> :Rg
 -- noremap <silent><nowait><F1> :Helptags<CR>
--- 
+--
 -- "==========undotree==========
 -- nnoremap <nowait><LEADER>uu :UndotreeToggle<CR>
 -- if has("persistent_undo")
 --    let target_path = expand('~/.config/nvim/.undodir')
--- 
+--
 --     " create the directory and any parent directories
 --     " if the location does not exist.
 --     if !isdirectory(target_path)
 --         call mkdir(target_path, "p", 0700)
 --     endif
--- 
+--
 --     let &undodir=target_path
 --     set undofile
 -- endif
--- 
+--
 -- "==========vim-gitgutter==========
 -- nmap ]h <Plug>(GitGutterStageHunk)
 -- nmap [h <Plug>(GitGutterUndoHunk)
 -- nmap ghn :GitGutterDiffOrig<CR>
 -- nmap ghp <Plug>(GitGutterPreviewHunk)
--- 
--- 
+--
+--
 -- "==========vim-plug==========
 -- call plug#begin('~/.config/nvim/autoload')
--- 
+--
 -- Plug 'brooth/far.vim'
 -- Plug 'kshenoy/vim-signature'
 -- Plug 'tpope/vim-dadbod', {'on': 'DBUI'}
@@ -235,12 +236,12 @@ vim.cmd[[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "
 -- Plug 'Yggdroot/indentLine'
 -- Plug 'sonph/onehalf', { 'rtp': 'vim' }
 -- Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
--- 
+--
 -- call plug#end()
--- 
+--
 -- source $HOME/.config/nvim/config/vimspector.vim
 -- source $HOME/.config/nvim/config/asynctasks.vim
--- 
+--
 -- let g:coc_global_extensions = [
 --       \ 'coc-vimlsp',
 --       \ 'coc-clangd',

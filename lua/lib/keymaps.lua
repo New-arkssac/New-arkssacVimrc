@@ -1,13 +1,13 @@
 local keymap = vim.keymap.set
-local opt = {silent = true, nowait = true}
-local map = {"n", "v", "x"}
+local opt = { silent = true, nowait = true }
+local map = { "n", "v", "x" }
 
 keymap("n", "<M-s>k", ":e $MYVIMRC<CR>", opt) -- any time any where edit init.lua
 keymap(map, ";", ":", nil) -- ; map :
 keymap(map, "s", "<nop>", opt) -- s leave blank
 keymap("n", "S", ":w<CR>", opt) -- S is save file
 keymap("n", "Q", ":q<CR>", opt) -- Q is quit file
-keymap("n", "<M-r>", ":source %<CR>", opt)  -- source current file
+keymap("n", "<M-r>", ":source %<CR>", opt) -- source current file
 keymap("n", "<M-k>", ":source $MYVIMRC<CR>", opt) -- source init.lua
 keymap("n", "<LEADER>q", ":qa<CR>", opt) -- quit all buffer
 keymap("n", "sl", ":set splitright<CR>:vsplit<CR>", opt) -- left split screen
@@ -39,45 +39,46 @@ keymap("i", ";f", [[<Esc>/<++><CR>:nohlsearch<CR>"_c4l]], opt) -- insert Look ba
 keymap("v", ">", ">gv", opt)
 keymap("v", "<", "<gv", opt)
 keymap("v", "p", '"_dP', opt)
+keymap("n", "<LEADER>o", "<cmd>TroubleToggle<cr>")
 -- noremap <LEADER>f <Cmd>CocCommand explorer<CR>
--- 
+--
 -- inoremap <silent><expr> <TAB>
 --     \ coc#pum#visible() ? coc#pum#next(1) :
 --     \ CheckBackspace() ? "\<Tab>" :
 --     \ coc#refresh()
 -- inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
--- 
+--
 -- " Make <CR> to accept selected completion item or notify coc.nvim to format
 -- " <C-g>u breaks current undo, please make your own choice.
 -- inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 --                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
--- 
+--
 -- function! CheckBackspace() abort
 --   let col = col('.') - 1
 --   return !col || getline('.')[col - 1]  =~# '\s'
 -- endfunction
--- 
+--
 -- " find <++> replace it
 -- noremap <silent><LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 -- inoremap <silent><buffer>,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
--- 
+--
 -- ""coc-translator
 -- nmap <Leader>t <Plug>(coc-translator-p)
 -- vmap <Leader>t <Plug>(coc-translator-pv)
--- 
+--
 -- "" find error
--- nmap <silent><LEADER>= <Plug>(coc-diagnostic-prev) 
+-- nmap <silent><LEADER>= <Plug>(coc-diagnostic-prev)
 -- nmap <silent><LEADER>- <Plug>(coc-diagnostic-next)
--- 
+--
 -- " GOTO code navigation.
 -- " nmap <silent>gd <Plug>(coc-definition)
 -- " nmap <silent>gy <Plug>(coc-type-definition)
 -- " nmap <silent>gi <Plug>(coc-implementation)
 -- nmap <silent>gr <Plug>(coc-references)
--- 
+--
 -- " Use K to show documentation in preview window.
 -- nnoremap <silent><nowait><LEADER>u :call ShowDocumentation()<CR>
--- 
+--
 -- function! ShowDocumentation()
 --   if CocAction('hasProvider', 'hover')
 --     call CocActionAsync('doHover')
@@ -85,33 +86,33 @@ keymap("v", "p", '"_dP', opt)
 --     call feedkeys('K', 'in')
 --   endif
 -- endfunction
--- 
+--
 -- ""Symbol rename
 -- nmap <LEADER>rn <Plug>(coc-rename)
--- 
+--
 -- noremap <silent><nowait><C-b> :Buffers<CR>
--- noremap <nowait><C-s> :Rg 
+-- noremap <nowait><C-s> :Rg
 -- noremap <silent><nowait><F1> :Helptags<CR>
--- 
+--
 -- "==========undotree==========
 -- nnoremap <nowait><LEADER>uu :UndotreeToggle<CR>
 -- if has("persistent_undo")
 --    let target_path = expand('~/.config/nvim/.undodir')
--- 
+--
 --     " create the directory and any parent directories
 --     " if the location does not exist.
 --     if !isdirectory(target_path)
 --         call mkdir(target_path, "p", 0700)
 --     endif
--- 
+--
 --     let &undodir=target_path
 --     set undofile
 -- endif
--- 
+--
 -- "==========vim-gitgutter==========
 -- nmap ]h <Plug>(GitGutterStageHunk)
 -- nmap [h <Plug>(GitGutterUndoHunk)
 -- nmap ghn :GitGutterDiffOrig<CR>
 -- nmap ghp <Plug>(GitGutterPreviewHunk)
--- 
--- 
+--
+--

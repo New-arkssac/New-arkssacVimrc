@@ -1,0 +1,3 @@
+GOWORKEPATH = "$HOME/golang/"
+PYTHONWORKPATH = "$HOME/python"
+CWORKPATH = "$HOME/c"

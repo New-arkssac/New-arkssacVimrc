@@ -1,33 +1,7 @@
-local status_ok, _ = pcall(require, "lspconfig")
-if not status_ok then
-    return
-end
-
 require "lib.lsp.mason"
 
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile", "StdinReadPost"}, {
-    callback = function (args)
-        local server = {
-            lua = "sumneko_lua",
-            go = "gopls",
-            json = "jsonls",
-            java = "jdtls",
-            python = "pyright",
-            c = "clangd"
-        }
-        local ft, _ = vim.filetype.match({filename = args.match, buf = args.buf})
-        local lsp = server[ft]
-        if lsp == nil then
-            return
-        end
-        require("lspconfig")[lsp].setup {}
-    end,
-})
--- local lsp_flags = {
-  -- debounce_text_changes = 150,
--- }
--- 
--- local on_attach = function(_, bufnr)
+
+-- -- local on_attach = function(_, bufnr)
     -- local bufopts = { noremap=true, silent=true, buffer=bufnr }
     -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
