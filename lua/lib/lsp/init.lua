@@ -3,8 +3,26 @@ if not status_ok then
     return
 end
 
-require "lib.lsp.lua"
+require "lib.lsp.mason"
 
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile", "StdinReadPost"}, {
+    callback = function (args)
+        local server = {
+            lua = "sumneko_lua",
+            go = "gopls",
+            json = "jsonls",
+            java = "jdtls",
+            python = "pyright",
+            c = "clangd"
+        }
+        local ft, _ = vim.filetype.match({filename = args.match, buf = args.buf})
+        local lsp = server[ft]
+        if lsp == nil then
+            return
+        end
+        require("lspconfig")[lsp].setup {}
+    end,
+})
 -- local lsp_flags = {
   -- debounce_text_changes = 150,
 -- }
@@ -29,7 +47,7 @@ require "lib.lsp.lua"
     -- vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 -- end
 
-local lsp_flags = {
-  debounce_text_changes = 150,
-}
+-- local lsp_flags = {
+  -- debounce_text_changes = 150,
+-- }
 

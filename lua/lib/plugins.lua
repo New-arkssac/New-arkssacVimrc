@@ -43,8 +43,6 @@ return packer.startup(function(use)
     use 'vim-airline/vim-airline-themes'
     -- gruvbox
     use 'morhetz/gruvbox'
-    -- onedark
-    use 'joshdick/onedark.vim'
     -- code lsp cmp
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-buffer'
@@ -56,8 +54,11 @@ return packer.startup(function(use)
 
     -- LSP
     use 'neovim/nvim-lspconfig'
-    -- use "williamboman/mason.nvim"
-    -- use "williamboman/mason-lspconfig.nvim"
+    use "williamboman/mason.nvim"
+    use "williamboman/mason-lspconfig.nvim"
+
+    -- LusSnip
+    use "L3MON4D3/LuaSnip"
     -- Nvim-tree
     use 'nvim-tree/nvim-tree.lua'
 

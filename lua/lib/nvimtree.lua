@@ -4,8 +4,9 @@ vim.g.loaded_netrwPlugin = 1
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
--- empty setup using defaults
-require("nvim-tree").setup()
+local keymap = vim.keymap.set
+
+keymap("n", "<LEADER>f", ":NvimTreeToggle<CR>")
 
 -- OR setup with some options
 require("nvim-tree").setup({
@@ -53,18 +54,18 @@ require("nvim-tree").setup({
           symlink = "",
           bookmark = "",
           folder = {
-            arrow_closed = "",
+            arrow_closed = "",
             arrow_open = "",
-            default = "",
-            open = "",
+            default = "",
+            open = "",
             empty = "",
             empty_open = "",
             symlink = "",
             symlink_open = "",
           },
           git = {
-            unstaged = "",
-            staged = "",
+            unstaged = "",
+            staged = "",
             unmerged = "",
             renamed = "",
             untracked = "",
