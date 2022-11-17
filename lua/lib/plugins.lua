@@ -61,17 +61,17 @@ return packer.startup(function(use)
     -- LusSnip
     use "L3MON4D3/LuaSnip"
     use "rafamadriz/friendly-snippets"
+
     -- Nvim-tree
     use 'nvim-tree/nvim-tree.lua'
+
     -- icon
     use 'nvim-tree/nvim-web-devicons'
 
     -- go.nvim
-    -- use { 'ray-x/go.nvim', ft = "go" }
-    -- use { 'ray-x/guihua.lua', ft = "go" }
-    use 'ray-x/go.nvim'
-    use 'ray-x/guihua.lua'
+    use {'ray-x/go.nvim', ft = "go", config = function() require "go".setup() end }
 
+    use 'lewis6991/gitsigns.nvim'
     -- trouble
     use "folke/trouble.nvim"
 
@@ -80,9 +80,20 @@ return packer.startup(function(use)
     -- alpha.vim
     use 'goolord/alpha-nvim'
 
+    -- fzf
     use 'junegunn/fzf'
     use 'junegunn/fzf.vim'
 
+    -- vim-markdown
+    use {'preservim/vim-markdown', ft = "md"}
+    use {'godlygeek/tabular', ft = "md"}
+
+    -- async
+    use {'skywind3000/asynctasks.vim', ft = {"go", "python", "lua", "c", "cpp"}}
+    use {'skywind3000/asyncrun.vim', ft = {"go", "python", "lua", "c", "cpp"}}
+
+    -- vimspector
+    use {'puremourning/vimspector', ft = {"go", "python", "lua", "c", "cpp"}}
 
     if PACKER_BOOTSTRAP then
         require('packer').sync()

@@ -15,7 +15,6 @@ require("mason-lspconfig").setup({
     automatic_installation = true,
 })
 
-
 SERVER = {
     lua = "sumneko_lua",
     go = "gopls",
@@ -53,8 +52,8 @@ local config = {
         style = "minimal",
         border = "rounded",
         source = "always",
-        header = "",
-        prefix = "",
+        header = "help",
+        prefix = "bulabula:",
     },
 }
 
@@ -74,16 +73,19 @@ local on_attach = function(client, bufnr)
     keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+    -- keymap(bufnr, "n", "H", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+    keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format {async = true}<cr>", opts)
     keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
     keymap(bufnr, "n", "<leader>=", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
     keymap(bufnr, "n", "<leader>-", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
     keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
     keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+    keymap(bufnr, "n", "<leader>lh", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+    keymap(bufnr, "n", "", ":Comm<CR>", opts)
+    keymap(bufnr, "v", "", ":Comm<CR>", opts)
+    keymap(bufnr, "i", "", "<ESC>:Comm<CR>", opts)
     local status_ok, illuminate = pcall(require, "illuminate")
     if not status_ok then
         return
@@ -100,6 +102,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
     callback = function(args)
         local opts = {}
         local ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
+        MESSAGE = ft
         local lsp = SERVER[ft]
         if lsp == nil then
             return
@@ -109,6 +112,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
             opts = vim.tbl_deep_extend("force", conf_opts, OPTS)
         end
         require("lspconfig")[lsp].setup(opts)
-        print("Loading LSP server " .. lsp .. " Finish")
+        -- print("Loading LSP server " .. lsp .. " Finish")
     end,
 })

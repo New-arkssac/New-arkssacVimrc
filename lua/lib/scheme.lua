@@ -23,11 +23,8 @@ require('nightfox').setup({
         },
         inverse = { -- Inverse highlight for different types
             match_paren = false,
-            visual = false,
+            visual = true,
             search = false,
-        },
-        modules = { -- List of various plugins and additional options
-            -- ...
         },
     },
     palettes = {},
@@ -38,12 +35,6 @@ require('nightfox').setup({
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
 if not status_ok then
     print("colorscheme " .. scheme .. " not found!")
-else
-    vim.cmd [[
-        highlight Visual cterm=italic,bold
-        highlight Comment cterm=italic
-        set background=dark
-    ]]
 end
 
 require("bufferline").setup {}
@@ -88,12 +79,3 @@ require('lualine').setup {
     inactive_winbar = {},
     extensions = {}
 }
--- local airline_ok, _ = pcall(vim.cmd, "let g:airline_theme='" .. scheme .. "'")
--- if not airline_ok then
--- print("airline theme " .. scheme .. " not found!")
--- else
--- vim.cmd [[
--- let g:airline#extensions#tabline#enabled = 1
--- let g:airline#extensions#tabline#left_alt_sep = ''
--- ]]
--- end

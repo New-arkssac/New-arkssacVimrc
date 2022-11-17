@@ -98,6 +98,7 @@ function UnCommentary()
   let l:bool = 0
   normal! I
  for i in range(5)
+  echom i
   if strcharpart(strpart(getline('.'),col('.')-1),i,g:strnum) == g:cm
     let l:bool = 1
     let g:dnum = i

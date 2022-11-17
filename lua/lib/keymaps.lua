@@ -2,13 +2,13 @@ local keymap = vim.keymap.set
 local opt = { silent = true, nowait = true }
 local map = { "n", "v", "x" }
 
-keymap("n", "<M-s>k", ":e $MYVIMRC<CR>", opt) -- any time any where edit init.lua
+keymap("n", "<A-s>k", ":e $MYVIMRC<CR>", opt) -- any time any where edit init.lua
 keymap(map, ";", ":", nil) -- ; map :
 keymap(map, "s", "<nop>", opt) -- s leave blank
 keymap("n", "S", ":w<CR>", opt) -- S is save file
 keymap("n", "Q", ":q<CR>", opt) -- Q is quit file
-keymap("n", "<M-r>", ":source %<CR>", opt) -- source current file
-keymap("n", "<M-k>", ":source $MYVIMRC<CR>", opt) -- source init.lua
+keymap("n", "<A-r>", ":source %<CR>", opt) -- source current file
+keymap("n", "<A-k>", ":source $MYVIMRC<CR>", opt) -- source init.lua
 keymap("n", "<LEADER>q", ":qa<CR>", opt) -- quit all buffer
 keymap("n", "sl", ":set splitright<CR>:vsplit<CR>", opt) -- left split screen
 keymap("n", "sh", ":set nosplitright<CR>:vsplit<CR>", opt) -- right split screen
@@ -40,6 +40,27 @@ keymap("v", ">", ">gv", opt)
 keymap("v", "<", "<gv", opt)
 keymap("v", "p", '"_dP', opt)
 keymap("n", "<LEADER>o", "<cmd>TroubleToggle<cr>")
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
+    callback = function(args)
+        local ft, _ = vim.filetype.match { filename = args.match, buf = args.buf }
+        if ft == "go" or ft == "lua" or ft == "python" or ft == "c" or ft == "cpp" then
+            local opts = { noremap = true, silent = true }
+            local kmap = vim.api.nvim_buf_set_keymap
+            kmap(args.buf, "n", "", ":Comm<CR>", opts)
+            kmap(args.buf, "v", "", ":Comm<CR>", opts)
+            kmap(args.buf, "i", "", "<ESC>:Comm<CR>", opts)
+            kmap(args.buf, "n", "<A-b>", ":AsyncTaskEdit<CR>", opt)
+            kmap(args.buf, "n", "<A-o>", ":AsyncTask file-run<cr>", opt)
+            kmap(args.buf, "n", "<A-p>", ":AsyncTask file-build<cr>", opt)
+            kmap(args.buf, "n", "<LEADER>p", ":AsyncTask project-build<cr>", opt)
+            kmap(args.buf, "n", "<LEADER>n", ":cnext<CR>", opt)
+            kmap(args.buf, "n", "<LEADER>N", ":cprev<CR>", opt)
+            vim.cmd [[command! -range Comm :lua M.comm()]]
+        end
+    end
+})
+
 -- noremap <LEADER>f <Cmd>CocCommand explorer<CR>
 --
 -- inoremap <silent><expr> <TAB>

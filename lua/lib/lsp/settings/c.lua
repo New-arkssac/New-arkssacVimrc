@@ -1,4 +1,1 @@
-return {
-    setting = {
-    }
-}
+return {}

@@ -72,8 +72,8 @@ local icon = {
 cmp.setup({
     snippet = {
         expand = function(args)
-            print(args)
             luasnip.lsp_expand(args.body) -- For `luasnip` users.
+            vim.fn["vsnip#anonymous"](args.body)
         end,
     },
     mapping = {
@@ -129,6 +129,9 @@ cmp.setup({
         end,
     },
     window = {
+        completion = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        },
         documentation = {
             border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
         },
