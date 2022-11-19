@@ -1,9 +1,11 @@
 return {
-      python = {
-        analysis = {
-          autoSearchPaths = true,
-          diagnosticMode = "workspace",
-          useLibraryCodeForTypes = true
+    settings = {
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = "workspace",
+                useLibraryCodeForTypes = true
+            },
+        }
     }
-  }
 }

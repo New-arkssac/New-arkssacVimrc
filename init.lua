@@ -7,19 +7,23 @@
 
 -- Author:@New-arkssac
 
-require "global"
+G = require "global"
 M = require "util.comment"
+P = require "util.project"
 require "lib.options"
 require "lib.keymaps"
 require "lib.plugins"
-require "lib.scheme"
+require "lib.notify"
+require "util.asynctasks"
+require "util.vimspector"
+require "lib.undotree"
 require "lib.nvimtree"
+require "lib.scheme"
 require "lib.gitsigns"
 require "lib.treesitter"
 require "lib.alpha"
 require "lib.cmp"
 require "lib.lsp"
-require "lib.notify"
-
+require "lib.translator"
 
 vim.cmd "nohlsearch"

@@ -29,11 +29,10 @@ CAPABILITIES.textDocument.completion.completionItem.snippetSupport = true
 CAPABILITIES = require("cmp_nvim_lsp").default_capabilities(CAPABILITIES)
 
 local signs = {
-
-    { name = "DiagnosticSignError", text = "" },
+    { name = "DiagnosticSignError", text = "" },
     { name = "DiagnosticSignWarn", text = "" },
     { name = "DiagnosticSignHint", text = "" },
-    { name = "DiagnosticSignInfo", text = "" },
+    { name = "DiagnosticSignInfo", text = "" },
 }
 
 for _, sign in ipairs(signs) do
@@ -52,8 +51,8 @@ local config = {
         style = "minimal",
         border = "rounded",
         source = "always",
-        header = "help",
-        prefix = "bulabula:",
+        header = "",
+        prefix = "WARNING: ",
     },
 }
 
@@ -72,20 +71,16 @@ local on_attach = function(client, bufnr)
     local keymap = vim.api.nvim_buf_set_keymap
     keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    keymap(bufnr, "n", "gK", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    -- keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    -- keymap(bufnr, "n", "H", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format {async = true}<cr>", opts)
-    keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+    keymap(bufnr, "n", "sf", "<cmd>lua vim.lsp.buf.format {async = true}<cr>", opts)
+    keymap(bufnr, "n", "sa", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
     keymap(bufnr, "n", "<leader>=", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
     keymap(bufnr, "n", "<leader>-", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
-    keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-    keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    keymap(bufnr, "n", "<leader>lh", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    keymap(bufnr, "n", "", ":Comm<CR>", opts)
-    keymap(bufnr, "v", "", ":Comm<CR>", opts)
-    keymap(bufnr, "i", "", "<ESC>:Comm<CR>", opts)
+    keymap(bufnr, "n", "sdn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+    keymap(bufnr, "n", "sds", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    keymap(bufnr, "n", "sdh", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
     local status_ok, illuminate = pcall(require, "illuminate")
     if not status_ok then
         return
@@ -95,7 +90,10 @@ end
 
 OPTS = {
     on_attach = on_attach,
-    capabilities = CAPABILITIES
+    capabilities = CAPABILITIES,
+    flags = {
+        debounce_text_changes = 150,
+    }
 }
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {

@@ -6,9 +6,7 @@ vim.opt.termguicolors = true
 
 local keymap = vim.keymap.set
 
-keymap("n", "<LEADER>f", ":NvimTreeToggle<CR>")
-
--- OR setup with some options
+keymap("n", "<LEADER>f", ":NvimTreeToggle<CR>:wincmd w<CR>", {silent = true})
 require("nvim-tree").setup({
     sort_by = "case_sensitive",
     view = {
@@ -69,7 +67,7 @@ require("nvim-tree").setup({
                     symlink_open = "",
                 },
                 git = {
-                    unstaged = "",
+                    unstaged = "",
                     staged = "",
                     unmerged = "",
                     renamed = "",

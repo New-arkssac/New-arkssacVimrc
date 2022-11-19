@@ -84,6 +84,20 @@ _G.packer_plugins = {
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/alpha-nvim",
     url = "https://github.com/goolord/alpha-nvim"
   },
+  ["asyncrun.vim"] = {
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/asyncrun.vim",
+    url = "https://github.com/skywind3000/asyncrun.vim"
+  },
+  ["asynctasks.vim"] = {
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/asynctasks.vim",
+    url = "https://github.com/skywind3000/asynctasks.vim"
+  },
   ["bufferline.nvim"] = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
@@ -129,20 +143,31 @@ _G.packer_plugins = {
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
   },
-  ["go.nvim"] = {
+  ["gitsigns.nvim"] = {
     loaded = true,
-    path = "/home/katris/.local/share/nvim/site/pack/packer/start/go.nvim",
-    url = "https://github.com/ray-x/go.nvim"
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
   },
-  ["guihua.lua"] = {
-    loaded = true,
-    path = "/home/katris/.local/share/nvim/site/pack/packer/start/guihua.lua",
-    url = "https://github.com/ray-x/guihua.lua"
+  ["go.nvim"] = {
+    config = { "\27LJ\2\nL\0\0\3\0\4\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\3\0B\0\2\1K\0\1\0\20util.libproject\nsetup\ago\frequire\0" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim",
+    url = "https://github.com/ray-x/go.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["markdown-preview.nvim"] = {
+    config = { "\27LJ\2\n,\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\17lib.markdown\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim",
+    url = "https://github.com/iamcco/markdown-preview.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
@@ -158,6 +183,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
     url = "https://github.com/EdenEast/nightfox.nvim"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -194,24 +224,88 @@ _G.packer_plugins = {
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
   ["trouble.nvim"] = {
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0" },
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/trouble.nvim",
     url = "https://github.com/folke/trouble.nvim"
+  },
+  undotree = {
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
   },
   ["vim-illuminate"] = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/vim-illuminate",
     url = "https://github.com/RRethy/vim-illuminate"
   },
+  ["vim-table-mode"] = {
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/vim-table-mode",
+    url = "https://github.com/dhruvasagar/vim-table-mode"
+  },
+  ["vim-translator"] = {
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/vim-translator",
+    url = "https://github.com/voldikss/vim-translator"
+  },
   ["vim-vsnip"] = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/vim-vsnip",
     url = "https://github.com/hrsh7th/vim-vsnip"
+  },
+  vimspector = {
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/vimspector",
+    url = "https://github.com/puremourning/vimspector"
+  },
+  ["vista.vim"] = {
+    config = { "\27LJ\2\n)\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\14lib.vista\frequire\0" },
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/vista.vim",
+    url = "https://github.com/liuchengxu/vista.vim"
   }
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: vista.vim
+time([[Config for vista.vim]], true)
+try_loadstring("\27LJ\2\n)\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\14lib.vista\frequire\0", "config", "vista.vim")
+time([[Config for vista.vim]], false)
+-- Config for: trouble.nvim
+time([[Config for trouble.nvim]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")
+time([[Config for trouble.nvim]], false)
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-table-mode', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "python" }, _G.packer_plugins)]]
+vim.cmd [[au FileType c ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "c" }, _G.packer_plugins)]]
+vim.cmd [[au FileType go ++once lua require("packer.load")({'vimspector', 'go.nvim', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "go" }, _G.packer_plugins)]]
+vim.cmd [[au FileType cpp ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "cpp" }, _G.packer_plugins)]]
+vim.cmd [[au FileType lua ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "lua" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
+vim.cmd [[augroup filetypedetect]]
+time([[Sourcing ftdetect script at: /home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim/ftdetect/go.vim]], true)
+vim.cmd [[source /home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim/ftdetect/go.vim]]
+time([[Sourcing ftdetect script at: /home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim/ftdetect/go.vim]], false)
+time([[Sourcing ftdetect script at: /home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim/ftdetect/gomod.vim]], true)
+vim.cmd [[source /home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim/ftdetect/gomod.vim]]
+time([[Sourcing ftdetect script at: /home/katris/.local/share/nvim/site/pack/packer/opt/go.nvim/ftdetect/gomod.vim]], false)
+vim.cmd("augroup END")
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
