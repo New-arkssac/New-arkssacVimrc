@@ -38,6 +38,7 @@ function M.comm()
                 "," .. tostring(line) .. [[s/\(^\s*\)\@<=\(\s\)\@!/]] .. s[1] .. " " .. "/ | nohlsearch")
         end
     end
+    firstLine, lastLine, getline = "", "", ""
 end
 
 return M

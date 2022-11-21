@@ -98,10 +98,12 @@ _G.packer_plugins = {
     path = "/home/katris/.local/share/nvim/site/pack/packer/opt/asynctasks.vim",
     url = "https://github.com/skywind3000/asynctasks.vim"
   },
-  ["bufferline.nvim"] = {
-    loaded = true,
-    path = "/home/katris/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
-    url = "https://github.com/akinsho/bufferline.nvim"
+  ["clipboard-image.nvim"] = {
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/opt/clipboard-image.nvim",
+    url = "https://github.com/ekickx/clipboard-image.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -149,7 +151,7 @@ _G.packer_plugins = {
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
   ["go.nvim"] = {
-    config = { "\27LJ\2\nL\0\0\3\0\4\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\3\0B\0\2\1K\0\1\0\20util.libproject\nsetup\ago\frequire\0" },
+    config = { "\27LJ\2\n0\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\ago\frequire\0" },
     loaded = false,
     needs_bufread = true,
     only_cond = false,
@@ -199,6 +201,11 @@ _G.packer_plugins = {
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-navic"] = {
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/nvim-navic",
+    url = "https://github.com/SmiteshP/nvim-navic"
+  },
   ["nvim-notify"] = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/nvim-notify",
@@ -228,6 +235,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/katris/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["tabline.nvim"] = {
+    loaded = true,
+    path = "/home/katris/.local/share/nvim/site/pack/packer/start/tabline.nvim",
+    url = "https://github.com/kdheepak/tabline.nvim"
   },
   ["trouble.nvim"] = {
     config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0" },
@@ -290,12 +302,12 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-table-mode', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
-vim.cmd [[au FileType python ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "python" }, _G.packer_plugins)]]
-vim.cmd [[au FileType c ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "c" }, _G.packer_plugins)]]
-vim.cmd [[au FileType go ++once lua require("packer.load")({'vimspector', 'go.nvim', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "go" }, _G.packer_plugins)]]
-vim.cmd [[au FileType cpp ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "cpp" }, _G.packer_plugins)]]
-vim.cmd [[au FileType lua ++once lua require("packer.load")({'vimspector', 'asyncrun.vim', 'asynctasks.vim'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType lua ++once lua require("packer.load")({'asyncrun.vim', 'vimspector', 'asynctasks.vim'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'asyncrun.vim', 'vimspector', 'asynctasks.vim'}, { ft = "python" }, _G.packer_plugins)]]
+vim.cmd [[au FileType go ++once lua require("packer.load")({'asyncrun.vim', 'vimspector', 'go.nvim', 'asynctasks.vim'}, { ft = "go" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-table-mode', 'clipboard-image.nvim', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType c ++once lua require("packer.load")({'asyncrun.vim', 'vimspector', 'asynctasks.vim'}, { ft = "c" }, _G.packer_plugins)]]
+vim.cmd [[au FileType cpp ++once lua require("packer.load")({'asyncrun.vim', 'vimspector', 'asynctasks.vim'}, { ft = "cpp" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

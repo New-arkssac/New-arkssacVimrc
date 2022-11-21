@@ -1,6 +1,5 @@
 require "lib.lsp.mason"
 require "lib.lsp.null-ls"
-print(1 + 1)
 
 -- -- local on_attach = function(_, bufnr)
 -- local bufopts = { noremap=true, silent=true, buffer=bufnr }

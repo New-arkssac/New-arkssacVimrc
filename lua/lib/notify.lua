@@ -7,6 +7,6 @@ vim.notify.setup {
         INFO = "",
         WARN = ""
     },
-    minimum_width = 40,
+    minimum_width = 20,
     timeout = 3000,
 }

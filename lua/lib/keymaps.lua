@@ -56,5 +56,17 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
             kmap(args.buf, "v", "", ":Comm<CR>", opts)
             kmap(args.buf, "i", "", "<ESC>:Comm<CR>", opts)
         end
+        if ft == "go" or ft == "python" or ft == "c" or ft == "cpp" then
+            kmap(args.buf, "n", "so", ":AsyncTaskEdit<CR>", opt)
+            kmap(args.buf, "n", "<LEADER>i", ":AsyncTask file-run<cr>", opt)
+            kmap(args.buf, "n", "<LEADER>b", ":AsyncTask file-build<cr>", opt)
+            kmap(args.buf, "n", "<LEADER>n", ":AsyncTask project-build<cr>", opt)
+            kmap(args.buf, "n", "<A-l>", "<Plug>VimspectorStepOver", opt)
+            kmap(args.buf, "n", "<A-i>", ":VimspectorWatch", opt)
+            kmap(args.buf, "n", "<A-n>", ":VimspectorShowOutput", opt)
+            kmap(args.buf, "x", "<A-k>", "<Plug>VimspectorBalloonEval", opt)
+            kmap(args.buf, "n", "<A-k>", "<Plug>VimspectorBalloonEval", opt)
+            kmap(args.buf, "n", "<A-'>", "<Plug>VimspectorDisassemble", opt)
+        end
     end
 })

@@ -15,6 +15,9 @@ require("mason-lspconfig").setup({
     automatic_installation = true,
 })
 
+local navic = require("nvim-navic")
+
+
 SERVER = {
     lua = "sumneko_lua",
     go = "gopls",
@@ -29,7 +32,7 @@ CAPABILITIES.textDocument.completion.completionItem.snippetSupport = true
 CAPABILITIES = require("cmp_nvim_lsp").default_capabilities(CAPABILITIES)
 
 local signs = {
-    { name = "DiagnosticSignError", text = "" },
+    { name = "DiagnosticSignError", text = "﫝" },
     { name = "DiagnosticSignWarn", text = "" },
     { name = "DiagnosticSignHint", text = "" },
     { name = "DiagnosticSignInfo", text = "" },
@@ -71,7 +74,7 @@ local on_attach = function(client, bufnr)
     local keymap = vim.api.nvim_buf_set_keymap
     keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    keymap(bufnr, "n", "gK", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    keymap(bufnr, "n", "gk", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     -- keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
     keymap(bufnr, "n", "sf", "<cmd>lua vim.lsp.buf.format {async = true}<cr>", opts)
@@ -86,6 +89,7 @@ local on_attach = function(client, bufnr)
         return
     end
     illuminate.on_attach(client)
+    navic.attach(client, bufnr)
 end
 
 OPTS = {

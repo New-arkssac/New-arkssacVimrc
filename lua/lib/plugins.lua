@@ -43,8 +43,10 @@ return packer.startup(function(use)
     use 'wbthomason/packer.nvim'
     -- theme
     use 'nvim-lualine/lualine.nvim'
-    use { 'akinsho/bufferline.nvim', tag = "v3.*" }
     use 'EdenEast/nightfox.nvim'
+    use 'SmiteshP/nvim-navic'
+    use 'kdheepak/tabline.nvim'
+
     -- code lsp cmp
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-buffer'
@@ -76,7 +78,6 @@ return packer.startup(function(use)
     -- go.nvim
     use { 'ray-x/go.nvim', ft = "go", config = function()
         require "go".setup()
-        require("util.libproject")
     end }
 
     use 'lewis6991/gitsigns.nvim'
@@ -97,6 +98,7 @@ return packer.startup(function(use)
     use { 'dhruvasagar/vim-table-mode', ft = { "markdown"} }
     use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install",
         config = function() require "lib.markdown" end, ft = { "markdown" }})
+    use { 'ekickx/clipboard-image.nvim', ft = {"markdown"} }
     -- async
     use { 'skywind3000/asynctasks.vim', ft = { "go", "python", "lua", "c", "cpp" } }
     use { 'skywind3000/asyncrun.vim', ft = { "go", "python", "lua", "c", "cpp" }}
