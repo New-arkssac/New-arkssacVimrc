@@ -51,7 +51,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         local kmap = vim.api.nvim_buf_set_keymap
         if ft == "go" or ft == "lua" or ft == "vim" or ft == "python" or ft == "c" or ft == "cpp" then
             vim.cmd [[command! -range Comm :lua M.comm()]]
-            vim.cmd [[command! ProjectInitialization :lua P:projectInitialization()]]
+            vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]
             kmap(args.buf, "n", "", ":Comm<CR>", opts)
             kmap(args.buf, "v", "", ":Comm<CR>", opts)
             kmap(args.buf, "i", "", "<ESC>:Comm<CR>", opts)

@@ -9,7 +9,7 @@
 
 G = require "global"
 M = require "util.comment"
---P = require "util.project"
+P = require "util.project"
 I = require "util.clipborad"
 require "lib.options"
 require "lib.keymaps"

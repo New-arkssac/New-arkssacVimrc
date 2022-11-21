@@ -31,6 +31,12 @@ G.icons = {
     }
 }
 
+G.language = {
+  python = "Python Notify",
+  golang = "Golang Notify",
+  clang = "Clang Notify"
+}
+
 G.release = {
     "kali",
     "Ubuntu",
