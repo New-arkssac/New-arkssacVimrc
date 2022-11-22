@@ -1,0 +1,31 @@
+vim.cmd.filetype = { "on", indent = "on", plugin = "on" }
+vim.opt.number = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tw = 0
+vim.opt.textwidth = 100
+vim.opt.encoding = "utf-8"
+vim.opt.softtabstop = 2
+vim.opt.backspace = { "indent", "eol", "start" }
+vim.opt.tags = { "./.tags", ".tags", "./**/.tags" }
+vim.opt.showcmd = true
+vim.opt.wildmenu = true
+vim.opt.wrap = true
+vim.opt.scrolloff = 5
+vim.opt.sidescroll = 20
+vim.opt.laststatus = 2
+vim.opt.showmatch = true
+vim.opt.expandtab = true
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.ttimeout = true
+vim.opt.ttimeoutlen = 100
+vim.opt.updatetime = 100
+vim.opt.shortmess:append "c"
+vim.g.mapleader = " "
+vim.opt.syntax = "on"
+vim.opt.termguicolors = true
+vim.cmd [[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]
