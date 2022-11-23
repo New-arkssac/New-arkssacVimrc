@@ -324,10 +324,10 @@ ok看到这里已经默认你已经完成以上的配置了
 以及[alpha.lua](https://github.com/New-arkssac/New-arkssacVimrc/blob/main/lua/lib/alpha.lua) 
 
 使用`alpha` 初始化
-![alpha](https://file.fishpi.cn/2022/11/QQ录屏20221123142058-4ec6749b.gif) 
+![alpha](https://file.fishpi.cn/2022/11/42058-86899e52.gif) 
 
 快捷键初始化  
-![init](https://file.fishpi.cn/2022/11/QQ录屏20221123142518-7a9e862f.gif) 
+![init](https://file.fishpi.cn/2022/11/42518-83923dd6.gif) 
 
 
 ##### 注释
@@ -339,7 +339,7 @@ ok看到这里已经默认你已经完成以上的配置了
 
 仅能使用在`go、c、py、lua、vim`中  
 如果想要添加注释自己想要的语言请自行修改[comment.lua](https://github.com/New-arkssac/New-arkssacVimrc/blob/main/lua/util/comment.lua) 文件
-![comment](https://file.fishpi.cn/2022/11/QQ录屏20221123134019-4cdabcf3.gif) 
+![comment](https://file.fishpi.cn/2022/11/34019-06141150.gif) 
 
 
 ##### 粘贴剪切板图片
@@ -357,7 +357,7 @@ ok看到这里已经默认你已经完成以上的配置了
 所有操作均会在当前目录下创建一个`img` 目录，上传和粘贴的图片均会在里面  
 目前并不打算支持其他系统，如果要支持其他系统的话请自行修改[clipboard.lua](https://github.com/New-arkssac/New-arkssacVimrc/blob/main/lua/util/clipboard.lua) 
 
-![clipboard](https://file.fishpi.cn/2022/11/QQ录屏20221123140118-cca79ff3.gif) 
+![clipboard](https://file.fishpi.cn/2022/11/140118-c0641011.gif) 
 
 ##### Markdown 
 
@@ -380,5 +380,5 @@ ok看到这里已经默认你已经完成以上的配置了
 
 `,f` 去往下一个占位符`<++>` 
 
-![markdown](https://file.fishpi.cn/2022/11/QQ录屏20221123144952-a8e46718.gif) 
+![markdown](https://file.fishpi.cn/2022/11/144582-0bd65444.gif) 
 
