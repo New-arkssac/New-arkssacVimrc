@@ -92,7 +92,7 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s", }),
-        ["ESC"] = cmp.mapping {
+        ["<A-e>"] = cmp.mapping {
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         },
@@ -102,6 +102,7 @@ cmp.setup({
         { name = 'nvim_lsp', option = { show_autosnippets = true } },
         { name = 'buffer' },
         { name = 'path' },
+        { name = 'nvim_lsp_signature_help' }
     }),
     formatting = {
         fields = { "abbr", "kind", "menu" },
