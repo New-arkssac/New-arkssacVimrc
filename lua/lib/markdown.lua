@@ -6,12 +6,10 @@ vim.g.mkdp_auto_start = 1
 vim.g.mkdp_auto_close = 0
 vim.g.mkdp_command_for_global = 1
 
-
 -- autocmd Filetype markdown inoremap <buffer> ,w <Esc>/ <++><CR>:nohlsearch<CR>"_c5l<CR>
 -- autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
 -- autocmd Filetype vimwiki inoremap <buffer> ,b  * <++>* <CR>:n,ohlsearch<CR>"_c4l
 vim.cmd [[
-autocmd Filetype markdown TableModeToggle
 autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
 autocmd Filetype markdown inoremap <buffer> ,m ~~~~ <++><Esc>F~hi
