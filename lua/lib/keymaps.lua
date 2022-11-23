@@ -38,6 +38,12 @@ keymap("i", "<C-p>", [[<ESC>"+p]], opt) -- insert mod paste from clipborad
 keymap("v", ">", ">gv", opt)
 keymap("v", "<", "<gv", opt)
 keymap("v", "p", '"_dP', opt)
+keymap("n", "sy", ":OpenClip<CR>", opt)
+keymap("n", "sP", ":PastUpload<CR>", opt)
+keymap("n", "sp", ":PastImage<CR>", opt)
+keymap("i", ",y", "<ESC>:OpenClip<CR>", opt)
+keymap("i", ",p", "<ESC>:PastImage<CR>i", opt)
+keymap("i", ",P", "<ESC>:PastUpload<CR>i", opt)
 -- keymap("i", "'", [[''<left>]], opt) -- ' -> ''
 -- keymap("i", "\"", [[""<left>]], opt) -- " -> ""
 -- keymap("i", "(", [[()<left>]], opt) -- ( -> ()
@@ -53,7 +59,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
             vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]
             kmap(args.buf, "n", "", ":Comm<CR>", opts)
             kmap(args.buf, "v", "", ":Comm<CR>", opts)
-            kmap(args.buf, "i", "", "<ESC>:Comm<CR>", opts)
         end
         if ft == "go" or ft == "python" or ft == "c" or ft == "cpp" then
             kmap(args.buf, "n", "s\\", ":ProjectInitialization<CR>", opt)
@@ -65,8 +70,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
             kmap(args.buf, "n", "<A-l>", "<Plug>VimspectorStepOver", opt)
             kmap(args.buf, "n", "<A-i>", ":VimspectorWatch", {})
             kmap(args.buf, "n", "<A-n>", ":VimspectorShowOutput<CR>", opt)
-            kmap(args.buf, "x", "<A-k>", "<Plug>VimspectorBalloonEval", opt)
-            kmap(args.buf, "n", "<A-k>", "<Plug>VimspectorBalloonEval", opt)
             kmap(args.buf, "n", "<A-'>", "<Plug>VimspectorDisassemble", opt)
         end
     end

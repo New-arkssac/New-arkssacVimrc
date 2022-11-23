@@ -137,18 +137,21 @@ local openClip = function(columns)
   local botframe = "╰" .. string.rep("─", width - 2) .. "╯"
   local frame = { topframe, string.rep(midframe, height - 2), botframe }
   local buf1 = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_option(buf1, 'modified', false)
   vim.api.nvim_buf_set_lines(buf1, 0, -1, false, frame)
   local win1 = vim.api.nvim_open_win(buf1, false, opt)
+  local buf2 = vim.api.nvim_create_buf(false, true)
   opt.row = opt.row + 1
   opt.height = opt.height - 4
-  opt.col = opt.col + 2
-  opt.width = opt.width - 5
+  opt.col = opt.col + 1
+  opt.width = opt.width - 4
   opt.focusable = true
-  local buf2 = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf2, 0, -1, true, columns)
+  vim.api.nvim_buf_set_option(buf2, 'modifiable', false)
   local win2 = vim.api.nvim_open_win(buf2, true, opt)
+  vim.api.nvim_win_set_option(win2, 'number', true)
   I.float[1] = win1
   I.float[2] = win2
-  vim.api.nvim_buf_set_lines(buf2, 0, -1, true, columns)
 
   keymap(buf2, "n", "q", ":lua I.close()<CR>", keymapOpt)
   keymap(buf2, "n", "<ENTER>", ":lua I:PastHistory()<CR>", keymapOpt)
@@ -194,6 +197,7 @@ I.close = function()
     I.float[i] = nil
   end
 end
+
 
 vim.cmd [[command! PastUpload :lua I:PastUpload()]]
 vim.cmd [[command! PastImage :lua I:PastImage()]]

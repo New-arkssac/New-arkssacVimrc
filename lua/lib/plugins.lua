@@ -46,7 +46,6 @@ return packer.startup(function(use)
   use 'nvim-lualine/lualine.nvim'
   use 'EdenEast/nightfox.nvim'
   use 'SmiteshP/nvim-navic'
-  use 'kdheepak/tabline.nvim'
 
   -- code lsp cmp
   use 'hrsh7th/nvim-cmp'
@@ -55,6 +54,7 @@ return packer.startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'saadparwaiz1/cmp_luasnip'
 
   -- LSP
@@ -95,7 +95,7 @@ return packer.startup(function(use)
   use 'junegunn/fzf.vim'
 
   -- vim-markdown
-  -- use { 'preservim/vim-markdown', ft = "md" }
+  use {'mzlogin/vim-markdown-toc', ft = {"vimwiki", "markdown"}}
   use { 'dhruvasagar/vim-table-mode', ft = { "vimwiki", "markdown" } }
   use({ "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
