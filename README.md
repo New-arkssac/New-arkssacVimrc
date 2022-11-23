@@ -305,9 +305,9 @@ ok看到这里已经默认你已经完成以上的配置了
 
 [translator](https://github.com/voldikss/vim-translator) 
 
-| 快捷键     | 行为           |
-|------------|----------------|
-| `<Space>t` | 展开关键词列表 |
+| 快捷键     | 行为             |
+|------------|------------------|
+| `<Space>t` | 翻译光标下的单词 |
 
 ![translator](https://file.fishpi.cn/2022/11/20221123131655-8a2d3549.png) 
 
