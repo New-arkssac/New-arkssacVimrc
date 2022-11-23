@@ -1,7 +1,7 @@
 # 这是一位咸鱼的[VIMRC](https://github.com/New-arkssac/New-arkssacVimrc) 
 
 **这是自用的NEOVIM的配置, 有一些功能我自己实现的（maybe have some bug?）** 
-**使用这些配置文件的话，默认你已经对vim的操作有一定的了解~** 
+**使用这些配置文件的话，默认你已经对vim的操作有一定的了解~ 以下把MYVIMRC统称为此配置** 
 
 --------
 
@@ -68,11 +68,10 @@ ok看到这里已经默认你已经完成以上的配置了
 ### 基础快捷键
 | 快捷键     | 模式   | 行为                       |
 |------------|--------|----------------------------|
-| `<Space>`  | NORMAL | <LEADER>键替换成了空格     |
+| `<Space>`  | NORMAL | \<LEADER\>键替换成了空格   |
 | `;`        | NORMAL | `;`被映射成了`;`           |
 | `s`        | NORMAL | `nop` 被映射成了空         |
 | `sr`       | NORMAL | 重新加载$VIMRC文件         |
-| `sl`       | NORMAL | 向右分屏                   |
 | `S`        | NORMAL | 保存当前文件               |
 | `Q`        | NORMAL | 关闭当前窗口               |
 | `<Alt-r>`  | NORMAL | 重新加载当前文件           |
@@ -81,6 +80,7 @@ ok看到这里已经默认你已经完成以上的配置了
 ### 窗口快捷键
 | 快捷键      | 模式   | 行为                  |
 |-------------|--------|-----------------------|
+| `sl`       | NORMAL | 向右分屏                   |
 | `sh`        | NORMAL | 向左分屏              |
 | `sk`        | NORMAL | 向上分屏              |
 | `sj`        | NORMAL | 向下分屏              |
@@ -121,7 +121,7 @@ ok看到这里已经默认你已经完成以上的配置了
   想要设置的可以自行官方文档修改[schema.lua](https://github.com/New-arkssac/New-arkssacVimrc/blob/main/lua/lib/scheme.lua)
   ![tabline](https://file.fishpi.cn/2022/11/20221122223924-e9ffee82.png) 
   ![lualine](https://file.fishpi.cn/2022/11/20221122224121-3024ff70.png) 
-  `statusline mod` 块还会根据系统切换Icon 
+  在此配置中`statusline mod` 块还会根据系统切换Icon哦 
 * [nightfox](https://github.com/EdenEast/nightfox.nvim)
   主题配色
 * [nvim-navic](https://github.com/SmiteshP/nvim-navic)
