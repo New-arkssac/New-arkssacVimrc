@@ -25,6 +25,8 @@ keymap("n", "<LEADER>o", "<CMD>TroubleToggle<cr>")
 keymap(map, "<LEADER>t", "<CMD>TranslateW<CR>")
 keymap("n", "<LEADER>n", "<CMD>Buffers<CR>")
 keymap("n", "<LEADER>;", "<CMD>Rg<CR>")
+keymap("n", "<LEADER>F", "<CMD>Files<CR>")
+keymap("n", "<LEADER>;", "<CMD>Rg<CR>")
 keymap("n", "<LEADER>m", "<CMD>Vista!!<CR>")
 keymap("n", "<LEADER>sp", ":set spell!<CR>", opt) -- open word spell check
 keymap("n", "<LEADER>uu", ":UndotreeToggle<CR>")
