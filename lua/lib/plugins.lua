@@ -62,7 +62,13 @@ return packer.startup(function(use)
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'RRethy/vim-illuminate'
-  use 'nvim-treesitter/nvim-treesitter'
+      use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end,
+    }
   use 'jose-elias-alvarez/null-ls.nvim'
 
   -- LusSnip
@@ -95,7 +101,7 @@ return packer.startup(function(use)
   use 'junegunn/fzf.vim'
 
   -- vim-markdown
-  use {'mzlogin/vim-markdown-toc', ft = {"vimwiki", "markdown"}}
+  use { 'mzlogin/vim-markdown-toc', ft = { "vimwiki", "markdown" } }
   use { 'dhruvasagar/vim-table-mode', ft = { "vimwiki", "markdown" } }
   use({ "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,

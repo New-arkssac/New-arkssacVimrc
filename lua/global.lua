@@ -20,13 +20,15 @@ G.icons = {
         ["kali"] = " ",
         ["linux"] = " ",
         ["Ubuntul"] = " ",
-        ["Normal"] = " "
+        ["Normal"] = " "
     },
     mac = {
         ["Darwin"] = " "
     },
     windows = {
         ["Windows"] = " ",
+    },
+    wsl = {
         ["microsoft"] = " "
     }
 }
@@ -42,30 +44,39 @@ G.release = {
     "Ubuntu",
     "microsoft",
 }
+local system = {
+  kali = "linux",
+  Ubuntu = "linux",
+  Normal = "linux",
+  microsoft = "wsl",
+  win32 = "windows",
+  Darwin = "mac"
+}
 
 local getOs = function()
     if vim.fn.has "win32" == 1 then
-        return "Windows", "windows"
+        return "win32", system["win32"]
     end
 
     if vim.fn.has("Darwin") == 1 then
-        return "Darwin", "mac"
+        return "Darwin", system["Darwin"]
     end
 
     local osMessage
+    local flag
     if vim.fn.has "linux" ~= 1 then
         return "Normal", "linux"
     else
         for _, value in pairs(G.release) do
             osMessage = vim.fn.system("cat /proc/version")
             if osMessage:match(value) ~= nil then
-                return value, "linux"
-            else
-                return "linux", "linux"
+                return value, system[value]
             end
         end
     end
+    return "linux", "linux"
 end
+
 
 G.os,G.system = getOs()
 return G

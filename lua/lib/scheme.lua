@@ -17,7 +17,7 @@ require('nightfox').setup({
       keywords = "bold",
       numbers = "italic",
       operators = "NONE",
-      strings = "italic",
+      strings = "NONE",
       types = "bold",
       variables = "NONE",
     },
@@ -48,11 +48,11 @@ local bar = function()
 end
 
 local workDir = function()
-  local icon = (vim.fn.haslocaldir(0) == 1 and "l" .. " ".. " " or "g".. " " .. " ")
+  local icon = (vim.fn.haslocaldir(0) == 1 and "l" .. " " .. " " or "g" .. " " .. " ")
   local cwd = vim.fn.getcwd(0)
   cwd = vim.fn.fnamemodify(cwd, ":~")
   local trail = cwd:sub(-1) == '/' and '' or "/"
-  return icon .. cwd .. trail..vim.fn.expand("%:t:p")
+  return icon .. cwd .. trail .. vim.fn.expand("%:t:p")
 end
 
 local navic = require("nvim-navic")
@@ -149,7 +149,7 @@ require('lualine').setup {
       },
       'diagnostics'
     },
-    lualine_c = { { workDir, color = { gui='bold', fg = "#81a1c1" } }, { navic.get_location, cond = navic.is_available } },
+    lualine_c = { { workDir, color = { gui = 'bold', fg = "#81a1c1" } } },
     lualine_x = { 'encoding', 'fileformat', 'filetype' },
     lualine_y = { 'progress', { bar, color = { fg = '#81a1c1' } } },
     lualine_z = { 'location' }
@@ -166,7 +166,8 @@ require('lualine').setup {
         },
       }
     },
-    lualine_z = { 'tabs' }
+    lualine_z = { 'tabs' },
+    lualine_c = { { navic.get_location, cond = navic.is_available } }
   },
   extensions = { 'quickfix', 'fzf', 'nvim-tree' }
 }

@@ -5,7 +5,8 @@ I = {
 
 local command = {
   ["linux"] = { "xclip", "xclip -sel -c -t image/png -o > %s" },
-  ["windows"] = { "powershell", "powershell.exe (Get-Clipboard -Format Image).Save('%s/%s.png')" },
+  ["microsoft"] = { "powershell.exe", [[powershell.exe \(Get-Clipboard -Format Image\).Save\(\'%s\'\)]] },
+  ["windows"] = { "powershell.exe", [[powershell.exe (Get-Clipboard -Format Image).Save('%s')]] },
 }
 
 local errMag = {
