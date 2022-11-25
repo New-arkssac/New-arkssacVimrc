@@ -63,7 +63,6 @@ local getOs = function()
     end
 
     local osMessage
-    local flag
     if vim.fn.has "linux" ~= 1 then
         return "Normal", "linux"
     else

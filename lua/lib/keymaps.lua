@@ -23,7 +23,7 @@ keymap("n", "<LEADER>h", "<C-w>h", opt) -- cursor handoff left screen
 keymap("n", "<LEADER>l", "<C-w>l", opt) -- cursor handoff right screen
 keymap("n", "<LEADER>o", "<CMD>TroubleToggle<cr>")
 keymap(map, "<LEADER>t", "<CMD>TranslateW<CR>")
-keymap("n", "<LEADER>n", "<CMD>Buffers<CR>")
+keymap("n", "<LEADER>v", "<CMD>Buffers<CR>")
 keymap("n", "<LEADER>;", "<CMD>Rg<CR>")
 keymap("n", "<LEADER>F", "<CMD>Files<CR>")
 keymap("n", "<LEADER>;", "<CMD>Rg<CR>")
@@ -68,11 +68,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
             kmap(args.buf, "n", "<LEADER>i", ":AsyncTask file-run<cr>", opt)
             kmap(args.buf, "n", "<LEADER>b", ":AsyncTask file-build<cr>", opt)
             kmap(args.buf, "n", "<LEADER>n", ":AsyncTask project-build<cr>", opt)
-            kmap(args.buf, "n", "<C-q>", ":VimspectorReset<CR>", opt)
-            kmap(args.buf, "n", "<A-l>", "<Plug>VimspectorStepOver", opt)
-            kmap(args.buf, "n", "<A-i>", ":VimspectorWatch", {})
-            kmap(args.buf, "n", "<A-n>", ":VimspectorShowOutput<CR>", opt)
-            kmap(args.buf, "n", "<A-'>", "<Plug>VimspectorDisassemble", opt)
+            -- kmap(args.buf, "n", "<C-q>", ":VimspectorReset<CR>", opt)
+            -- kmap(args.buf, "n", "<A-l>", "<Plug>VimspectorStepOver", opt)
+            -- kmap(args.buf, "n", "<A-i>", ":VimspectorWatch", {})
+            -- kmap(args.buf, "n", "<A-n>", ":VimspectorShowOutput<CR>", opt)
+            -- kmap(args.buf, "n", "<A-'>", "<Plug>VimspectorDisassemble", opt)
         end
     end
 })

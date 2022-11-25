@@ -25,6 +25,7 @@ require "lib.treesitter"
 require "lib.alpha"
 require "lib.cmp"
 require "lib.lsp"
+-- require "lib.dap"
 require "lib.translator"
 
 vim.cmd "nohlsearch"

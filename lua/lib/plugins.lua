@@ -56,6 +56,7 @@ return packer.startup(function(use)
   use 'hrsh7th/vim-vsnip'
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'saadparwaiz1/cmp_luasnip'
+  use 'hrsh7th/cmp-nvim-lua'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -76,7 +77,7 @@ return packer.startup(function(use)
   use "rafamadriz/friendly-snippets"
 
   -- Nvim-tree
-  -- use {'nvim-tree/nvim-tree.lua', setup = require("lib.nvimtree")}
+  -- use {'nvim-tree/nvim-tree.lua', config = require("")}
   use { 'nvim-tree/nvim-tree.lua' }
 
   -- icon
@@ -86,6 +87,26 @@ return packer.startup(function(use)
   use { 'ray-x/go.nvim', ft = "go", config = function()
     require "go".setup()
   end }
+  -- use 'mfussenegger/nvim-dap'
+  use { 'rcarriga/nvim-dap-ui',
+    requires = {
+      "mfussenegger/nvim-dap",
+      "theHamsta/nvim-dap-virtual-text"
+    },
+    ft = { "go", "python", "lua", "c", "cpp" },
+    config = function ()
+      require "lib.dap"
+    end
+  }
+
+  -- java.nvim
+  use {
+    'mfussenegger/nvim-jdtls',
+    ft = "java",
+    config = function ()
+      require "lib.lsp.java"
+    end
+  }
 
   use 'lewis6991/gitsigns.nvim'
   -- trouble
@@ -114,7 +135,9 @@ return packer.startup(function(use)
   use { 'skywind3000/asyncrun.vim', ft = { "go", "python", "lua", "c", "cpp" } }
 
   -- vimspector
-  use { 'puremourning/vimspector', ft = { "go", "python", "lua", "c", "cpp" } }
+  -- use { 'puremourning/vimspector', ft = { "go", "python", "lua", "c", "cpp" }, run = function ()
+    -- vim.cmd [[VimspectorInstall]]
+  -- end }
 
   -- undotree
   use 'mbbill/undotree'
@@ -123,7 +146,6 @@ return packer.startup(function(use)
   use { 'liuchengxu/vista.vim', config = function()
     require "lib.vista"
   end }
-  -- use 'liuchengxu/vista.vim'
 
   -- vim translator
   use 'voldikss/vim-translator'
