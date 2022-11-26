@@ -53,22 +53,15 @@ keymap("i", ",P", "<ESC>:PastUpload<CR>i", opt)
 -- keymap("i", "{", [[{}<left>]], opt) -- { -> {}
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-    callback = function(args)
-        local ft, _ = vim.filetype.match { filename = args.match, buf = args.buf }
-        local opts = { noremap = true, silent = true }
-        local kmap = vim.api.nvim_buf_set_keymap if ft == "go" or ft == "lua" or ft == "vim" or ft == "python" or ft == "c" or ft == "cpp" then
-            vim.cmd [[command! -range Comm :lua M.comm()]]
-            vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]
-            kmap(args.buf, "n", "", ":Comm<CR>", opts)
-            kmap(args.buf, "v", "", ":Comm<CR>", opts)
-        end
-        if ft == "go" or ft == "python" or ft == "c" or ft == "cpp" then
-            kmap(args.buf, "n", "s\\", ":ProjectInitialization<CR>", opt)
-            -- kmap(args.buf, "n", "<C-q>", ":VimspectorReset<CR>", opt)
-            -- kmap(args.buf, "n", "<A-l>", "<Plug>VimspectorStepOver", opt)
-            -- kmap(args.buf, "n", "<A-i>", ":VimspectorWatch", {})
-            -- kmap(args.buf, "n", "<A-n>", ":VimspectorShowOutput<CR>", opt)
-            -- kmap(args.buf, "n", "<A-'>", "<Plug>VimspectorDisassemble", opt)
-        end
+  callback = function(args)
+    local ft, _ = vim.filetype.match { filename = args.match, buf = args.buf }
+    local opts = { noremap = true, silent = true }
+    local kmap = vim.api.nvim_buf_set_keymap
+    if ft == "go" or ft == "lua" or ft == "vim" or ft == "python" or ft == "c" or ft == "cpp" then
+      vim.cmd [[command! -range Comm :lua M.comm()]]
+      vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]
+      kmap(args.buf, "n", "", ":Comm<CR>", opts)
+      kmap(args.buf, "v", "", ":Comm<CR>", opts)
     end
+  end
 })

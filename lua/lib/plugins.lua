@@ -78,10 +78,31 @@ return packer.startup(function(use)
 
   -- Nvim-tree
   -- use {'nvim-tree/nvim-tree.lua', config = require("")}
-  use { 'nvim-tree/nvim-tree.lua' }
+  use { 'nvim-tree/nvim-tree.lua', config = function()
+    vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
+      callback = function(args)
+        if vim.fn.expand "%:p" ~= "" then
+          vim.api.nvim_del_autocmd(args.id)
+          vim.cmd "noautocmd NvimTreeOpen"
+          vim.schedule(function()
+            vim.cmd "wincmd p"
+          end)
+        end
+      end,
+    })
+  end }
 
   -- icon
-  use 'nvim-tree/nvim-web-devicons'
+  use { 'nvim-tree/nvim-web-devicons', config = function()
+    require("nvim-web-devicons").set_icon {
+      java = {
+        icon = "",
+        color = "#ae0014",
+        cterm_color = "red",
+        name = "java"
+      }
+    }
+  end }
 
   -- go.nvim
   use { 'ray-x/go.nvim', ft = "go", config = function()

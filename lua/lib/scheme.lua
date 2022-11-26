@@ -1,15 +1,32 @@
-local scheme = "nordfox"
+-- local scheme = "nordfox"
+local scheme = "nightfox"
+local coloe_ok, schemecoloe = pcall(require, 'lualine.themes.' .. scheme)
+if not coloe_ok then
+  schemecoloe = nil
+end
+local fcolor = function()
+  local colors
+  local mode = vim.fn.mode()
+  if mode == "n" then
+    colors = "#719cd6"
+  elseif mode == "i" then
+    colors = "#81b29a"
+  else
+    colors = "#9d79d6"
+  end
+  return { fg = colors }
+end
 
 require('nightfox').setup({
   options = {
     -- Compiled file's destination location
-    compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+    compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
     compile_file_suffix = "_compiled", -- Compiled file suffix
-    transparent = false, -- Disable setting background
-    terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-    dim_inactive = false, -- Non focused panes set to alternative background
-    module_default = true, -- Default enable value for modules
-    styles = { -- Style to be applied to different syntax groups
+    transparent         = false, -- Disable setting background
+    terminal_colors     = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+    dim_inactive        = false, -- Non focused panes set to alternative background
+    module_default      = true, -- Default enable value for modules
+    styles              = { -- Style to be applied to different syntax groups
       comments = "italic", -- Value is any valid attr-list value `:help attr-list`
       conditionals = "bold",
       constants = "NONE",
@@ -21,7 +38,7 @@ require('nightfox').setup({
       types = "bold",
       variables = "NONE",
     },
-    inverse = { -- Inverse highlight for different types
+    inverse             = { -- Inverse highlight for different types
       match_paren = false,
       visual = true,
       search = false,
@@ -123,50 +140,58 @@ vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, bg = "#232831", fg = 
 
 require('lualine').setup {
   options = {
-    icons_enabled = true,
-    theme = 'auto',
+    theme                = schemecoloe,
+    icons_enabled        = true,
+    -- theme = 'auto',
     component_separators = { left = '', right = '' },
-    section_separators = { left = '', right = '' },
-    disabled_filetypes = {
+    section_separators   = { left = '', right = '' },
+    disabled_filetypes   = {
       statusline = {},
       winbar = {},
     },
-    ignore_focus = {},
+    ignore_focus         = {},
     always_divide_middle = true,
-    globalstatus = false,
-    refresh = {
+    globalstatus         = false,
+    refresh              = {
       statusline = 1000,
       tabline = 1000,
       winbar = 1000,
-    }
+    },
   },
   sections = {
     lualine_a = { { 'mode', icon = G.icons[G.system][G.os], } },
-    lualine_b = { { 'branch', icon = " " },
+    lualine_b = { { 'branch', icon = " ", color = { fg = "#e94d34" } },
       {
         'diff',
         symbols = { added = ' ', modified = ' ', removed = ' ' },
       },
       'diagnostics'
     },
-    lualine_c = { { workDir, color = { gui = 'bold', fg = "#81a1c1" } } },
-    lualine_x = { 'encoding', 'fileformat', 'filetype' },
-    lualine_y = { 'progress', { bar, color = { fg = '#81a1c1' } } },
+    lualine_c = { { workDir, color = { fg = "#81a1c1" } } },
+    lualine_x = { 'encoding', 'fileformat', { 'filetype', color = { fg = G.ftcolor } } },
+    lualine_y = { 'progress', { bar, color = fcolor } },
     lualine_z = { 'location' }
   },
   tabline = {
     lualine_a = {
       {
         'buffers',
-        mode = 2, -- 0: Shows buffer name
-        symbols = {
+        mode               = 2, -- 0: Shows buffer name
+        icons_enabled      = true,
+        max_length         = vim.o.columns * 2 / 3,
+        symbols            = {
           modified = ' ', -- Text to show when the buffer is modified
           alternate_file = ' ', -- Text to show to identify the alternate file
           directory = ' ', -- Text to show when the buffer is a directory
         },
-      }
+        separator          = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+      },
     },
-    lualine_z = { 'tabs' },
+    lualine_z = { { 'tabs',
+      separator          = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
+    } },
     lualine_c = { { navic.get_location, cond = navic.is_available } }
   },
   extensions = { 'quickfix', 'fzf', 'nvim-tree' }

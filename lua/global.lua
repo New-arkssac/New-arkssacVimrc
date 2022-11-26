@@ -1,12 +1,17 @@
 ---@diagnostic disable: need-check-nil
 G = {}
 
+
 local home = os.getenv("HOME")
 local pwd = vim.fn.getcwd()
 local folder = vim.split(vim.fn.system("basename `pwd`"), "\n")[1]
 local recentpath = vim.fn.stdpath("data")
 local vimrc = home .. "/.config/nvim"
+local icon, color = require("nvim-web-devicons").get_icon_color(vim.fn.expand("%:e"))
 
+
+G.fticon = icon
+G.ftcolor = color
 G.url = "https://fishpi.cn/upload"
 G.projectpath = "project"
 G.imagepath = "img"
@@ -16,21 +21,21 @@ G.folder = folder
 G.recentpath = recentpath
 G.vimrc = vimrc
 G.icons = {
-    linux = {
-        ["kali"] = " ",
-        ["linux"] = " ",
-        ["Ubuntul"] = " ",
-        ["Normal"] = " "
-    },
-    mac = {
-        ["Darwin"] = " "
-    },
-    windows = {
-        ["Windows"] = " ",
-    },
-    wsl = {
-        ["microsoft"] = " "
-    }
+  linux = {
+    ["kali"] = " ",
+    ["linux"] = " ",
+    ["Ubuntul"] = " ",
+    ["Normal"] = " "
+  },
+  mac = {
+    ["Darwin"] = " "
+  },
+  windows = {
+    ["Windows"] = " ",
+  },
+  wsl = {
+    ["microsoft"] = " "
+  }
 }
 
 G.language = {
@@ -40,9 +45,9 @@ G.language = {
 }
 
 G.release = {
-    "kali",
-    "Ubuntu",
-    "microsoft",
+  "kali",
+  "Ubuntu",
+  "microsoft",
 }
 local system = {
   kali = "linux",
@@ -54,28 +59,28 @@ local system = {
 }
 
 local getOs = function()
-    if vim.fn.has "win32" == 1 then
-        return "win32", system["win32"]
-    end
+  if vim.fn.has "win32" == 1 then
+    return "win32", system["win32"]
+  end
 
-    if vim.fn.has("Darwin") == 1 then
-        return "Darwin", system["Darwin"]
-    end
+  if vim.fn.has("Darwin") == 1 then
+    return "Darwin", system["Darwin"]
+  end
 
-    local osMessage
-    if vim.fn.has "linux" ~= 1 then
-        return "Normal", "linux"
-    else
-        for _, value in pairs(G.release) do
-            osMessage = vim.fn.system("cat /proc/version")
-            if osMessage:match(value) ~= nil then
-                return value, system[value]
-            end
-        end
+  local osMessage
+  if vim.fn.has "linux" ~= 1 then
+    return "Normal", "linux"
+  else
+    for _, value in pairs(G.release) do
+      osMessage = vim.fn.system("cat /proc/version")
+      if osMessage:match(value) ~= nil then
+        return value, system[value]
+      end
     end
-    return "linux", "linux"
+  end
+  return "linux", "linux"
 end
 
 
-G.os,G.system = getOs()
+G.os, G.system = getOs()
 return G
