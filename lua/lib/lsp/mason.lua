@@ -11,22 +11,147 @@ require("mason").setup({
   max_concurrent_installers = 4,
 })
 require("mason-lspconfig").setup({
-  ensure_installed = { "sumneko_lua", "gopls", "jsonls", "jdtls", "pyright", "clangd" },
+  ensure_installed = { "sumneko_lua",
+    "gopls",
+    "jsonls",
+    "jdtls",
+    "pyright",
+    "clangd",
+    -- "cpptools",
+    -- "debugpy",
+    -- "delve",
+  },
   automatic_installation = true,
 })
 
-SERVER = {
+local adapter = {
+  python = {
+    type = 'executable';
+    command = '/usr/bin/python',
+    args = { '-m', 'debugpy.adapter' }
+  },
+  go = function(cb)
+    local stdout = vim.loop.new_pipe(false)
+    local handle
+    local pid_or_err
+    local port = 38697
+    local opts = {
+      stdio = { nil, stdout },
+      args = { "dap", "-l", "127.0.0.1:" .. port, "--check-go-version=false", "--log", " --log-output=dap" },
+      detached = true
+    }
+    handle, pid_or_err = vim.loop.spawn(os.getenv("HOME") .. '/.local/share/nvim/mason/bin/dlv', opts, function(code)
+      -- handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
+      stdout:close()
+      handle:close()
+      if code ~= 0 then
+        vim.notify('dlv exited with code ' .. code, "warn", { title = "Dap" })
+      end
+    end)
+    assert(handle, 'Error running dlv: ' .. tostring(pid_or_err))
+    stdout:read_start(function(err, chunk)
+      assert(not err, err)
+      if chunk then
+        vim.schedule(function()
+          require('dap.repl').append(chunk)
+        end)
+      end
+    end)
+    vim.defer_fn(
+      function()
+        cb({ type = "server", host = "127.0.0.1", port = port })
+      end,
+      100)
+  end,
+  c = {
+    id = 'cppdbg',
+    type = 'executable',
+    command = G.home .. '/.local/share/nvim/mason/bin/OpenDebugAD7',
+    options = {
+      detached = false
+    }
+  }
+}
+local configurations = {
+  python = {
+    {
+      type = 'python';
+      request = 'launch';
+      name = "Launch file";
+      program = "${file}";
+      pythonPath = function()
+        local cwd = vim.fn.getcwd()
+        if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+          return cwd .. '/venv/bin/python'
+        elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+          return cwd .. '/.venv/bin/python'
+        else
+          return '/usr/bin/python'
+        end
+      end;
+      console = "integratedTerminal"
+    },
+  },
+  go = {
+    {
+      type = "go",
+      name = "Debug workspace",
+      request = "launch",
+      program = "${workspaceFolder}",
+      mode = "debug",
+      console = "integratedTerminal",
+    },
+    {
+      type = "go",
+      name = "Debug file",
+      mode = "debug",
+      request = "launch",
+      program = "${file}",
+      console = "integratedConsole",
+    },
+    {
+      type = "go",
+      name = "Debug vscode-go",
+      request = 'launch';
+      showLog = false;
+      program = "${file}";
+      dlvToolPath = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/dlv",
+      console = "externalTerminal",
+    },
+  },
+  -- go = function ()
+  -- require "dap.ext.vscode".load_launchjs("./.nvim/launch.json", { go = { "go" } })
+  -- end,
+  c = {
+    {
+      name = "Launch current file",
+      type = "c",
+      request = "launch",
+      program = "${fileBasenameNoExtension}",
+      cwd = '${workspaceFolder}',
+      stopAtEntry = true,
+    },
+    {
+      name = "Launch appoint file",
+      type = "c",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      end,
+      cwd = '${workspaceFolder}',
+      stopAtEntry = true,
+    },
+  }
+}
+
+local server = {
   lua = "sumneko_lua",
   go = "gopls",
   json = "jsonls",
-  -- java = "jdtls",
   python = "pyright",
   c = "clangd"
 }
 
-CAPABILITIES = vim.lsp.protocol.make_client_capabilities()
-CAPABILITIES.textDocument.completion.completionItem.snippetSupport = true
-CAPABILITIES = require("cmp_nvim_lsp").default_capabilities(CAPABILITIES)
 
 local signs = {
   { name = "DiagnosticSignError", text = "﫝" },
@@ -66,61 +191,37 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
   border = "rounded",
 })
 
-local on_attach = function(client, bufnr)
-  -- print(vim.inspect(client))
-  local opts = { noremap = true, silent = true }
-  local keymap = vim.api.nvim_buf_set_keymap
-  -- keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  keymap(bufnr, "n", "gk", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  -- keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  keymap(bufnr, "n", "sf", "<cmd>lua vim.lsp.buf.format {async = true}<cr>", opts)
-  keymap(bufnr, "n", "sa", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-  keymap(bufnr, "n", "<leader>=", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
-  keymap(bufnr, "n", "<leader>-", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
-  keymap(bufnr, "n", "sdn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-  keymap(bufnr, "i", "<C-l>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  keymap(bufnr, "n", "<F3>", "<Cmd>lua require'dap'.step_into()<CR>", opts)
-  keymap(bufnr, "n", "<F4>", "<Cmd>lua require'dap'.step_out()<CR>", opts)
-  keymap(bufnr, "n", "<F5>", "<Cmd>lua require'dap'.continue()<CR>", opts)
-  keymap(bufnr, "n", "<F6>", "<Cmd>lua require'dap'.step_over()<CR>", opts)
-  keymap(bufnr, "n", "<F8>", "<Cmd>DapTerminate<CR>", opts)
-  keymap(bufnr, "n", "<F9>", "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
-  keymap(bufnr, "n", "<C-q>", "<Cmd>lua require 'dapui'.toggle()<CR>", opts)
-  keymap(bufnr, "n", "K", "<Cmd>lua require 'dapui'.eval()<CR>", opts)
-
-  -- keymap(bufnr, "n", "sdh", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-  local status_ok, illuminate = pcall(require, "illuminate")
-  if not status_ok then
-    return
-  end
-  illuminate.on_attach(client)
-  require("nvim-navic").attach(client, bufnr)
-  vim.notify("Loading LSP server " .. client.messages.name .. " Finish", "info", {title = "LSP server"})
-end
-
-OPTS = {
-  on_attach = on_attach,
-  capabilities = CAPABILITIES,
-  flags = {
-    debounce_text_changes = 150,
-  }
-}
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
   callback = function(args)
     local opts = {}
     local ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
-    MESSAGE = ft
-    local lsp = SERVER[ft]
+
+    local lsp = server[ft]
     if lsp == nil then
       return
     end
-    local require_ok, conf_opts = pcall(require, "lib.lsp.settings." .. ft)
-    if require_ok then
-      opts = vim.tbl_deep_extend("force", conf_opts, OPTS)
+
+    local require_ok, setting = pcall(require, "lib.lsp.settings." .. ft)
+    if not require_ok then
+      return
     end
+
+    vim.schedule(function()
+      local dap = require 'lib.lsp.settings.dap'
+      local apter, conf = adapter[ft], configurations[ft]
+      if apter == nil or conf == nil then
+        return
+      end
+      dap.setup()
+      dap.load()
+      dap.dap.adapters[ft] = apter
+      dap.dap.configurations[ft] = conf
+    end)
+
+    local opt = require "lib.lsp.handle"
+    opt.on_attach = setting.on_attach
+    opts = vim.tbl_deep_extend("force", setting.config, opt)
     require("lspconfig")[lsp].setup(opts)
   end,
 })

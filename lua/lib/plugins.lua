@@ -63,13 +63,13 @@ return packer.startup(function(use)
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'RRethy/vim-illuminate'
-      use {
-        'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
-    }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+  }
   use 'jose-elias-alvarez/null-ls.nvim'
 
   -- LusSnip
@@ -93,18 +93,22 @@ return packer.startup(function(use)
       "mfussenegger/nvim-dap",
       "theHamsta/nvim-dap-virtual-text"
     },
-    ft = { "go", "python", "lua", "c", "cpp" },
-    config = function ()
-      require "lib.dap"
-    end
+    ft = { "go", "python", "lua", "c", "cpp", "java", "json" },
+    -- config = function ()
+    -- require "lib.dap"
+    -- end
   }
 
   -- java.nvim
   use {
     'mfussenegger/nvim-jdtls',
     ft = "java",
-    config = function ()
-      require "lib.lsp.java"
+    config = function()
+      local java_ok = pcall(require, "lib.lsp.settings.java")
+      if not java_ok then
+        return
+      end
+      -- require "lib.lsp.java"
     end
   }
 
@@ -131,12 +135,12 @@ return packer.startup(function(use)
   use { 'vimwiki/vimwiki', ft = { "vimwiki", "markdown" } }
 
   -- async
-  use { 'skywind3000/asynctasks.vim', ft = { "go", "python", "lua", "c", "cpp" } }
-  use { 'skywind3000/asyncrun.vim', ft = { "go", "python", "lua", "c", "cpp" } }
+  use { 'skywind3000/asynctasks.vim', ft = { "go", "python", "lua", "c", "cpp", "java" } }
+  use { 'skywind3000/asyncrun.vim', ft = { "go", "python", "lua", "c", "cpp", "java" } }
 
   -- vimspector
   -- use { 'puremourning/vimspector', ft = { "go", "python", "lua", "c", "cpp" }, run = function ()
-    -- vim.cmd [[VimspectorInstall]]
+  -- vim.cmd [[VimspectorInstall]]
   -- end }
 
   -- undotree

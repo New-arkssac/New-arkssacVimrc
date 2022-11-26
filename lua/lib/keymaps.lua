@@ -64,10 +64,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         end
         if ft == "go" or ft == "python" or ft == "c" or ft == "cpp" then
             kmap(args.buf, "n", "s\\", ":ProjectInitialization<CR>", opt)
-            kmap(args.buf, "n", "so", ":AsyncTaskEdit<CR>", opt)
-            kmap(args.buf, "n", "<LEADER>i", ":AsyncTask file-run<cr>", opt)
-            kmap(args.buf, "n", "<LEADER>b", ":AsyncTask file-build<cr>", opt)
-            kmap(args.buf, "n", "<LEADER>n", ":AsyncTask project-build<cr>", opt)
             -- kmap(args.buf, "n", "<C-q>", ":VimspectorReset<CR>", opt)
             -- kmap(args.buf, "n", "<A-l>", "<Plug>VimspectorStepOver", opt)
             -- kmap(args.buf, "n", "<A-i>", ":VimspectorWatch", {})
