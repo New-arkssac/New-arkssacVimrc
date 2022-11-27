@@ -4,22 +4,32 @@ local coloe_ok, schemecoloe = pcall(require, 'lualine.themes.' .. scheme)
 if not coloe_ok then
   schemecoloe = nil
 end
-local fcolor = function()
-  local colors
-  local mode = vim.fn.mode()
-  if mode == "n" then
-    colors = "#719cd6"
-  elseif mode == "i" then
-    colors = "#81b29a"
-  else
-    colors = "#9d79d6"
+
+local lspname = function()
+  local msg = 'No Active Lsp'
+  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local clients = vim.lsp.get_active_clients()
+
+  if next(clients) == nil then
+    return msg
   end
-  return { fg = colors }
+
+  for _, client in ipairs(clients) do
+    local filetypes = client.config.filetypes
+    if client.config.name == "null-ls" then
+      goto continue
+    end
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+      return client.config.name
+    end
+    ::continue::
+  end
+  return msg
 end
+
 
 require('nightfox').setup({
   options = {
-    -- Compiled file's destination location
     compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
     compile_file_suffix = "_compiled", -- Compiled file suffix
     transparent         = false, -- Disable setting background
@@ -44,9 +54,6 @@ require('nightfox').setup({
       search = false,
     },
   },
-  palettes = {},
-  specs = {},
-  groups = {},
 })
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
@@ -142,9 +149,9 @@ require('lualine').setup {
   options = {
     theme                = schemecoloe,
     icons_enabled        = true,
-    -- theme = 'auto',
-    component_separators = { left = '', right = '' },
-    section_separators   = { left = '', right = '' },
+    component_separators = { left = '', right = '' },
+    section_separators   = { left = '', right = '' },
+    separator            = { left = "", right = "" },
     disabled_filetypes   = {
       statusline = {},
       winbar = {},
@@ -168,31 +175,45 @@ require('lualine').setup {
       'diagnostics'
     },
     lualine_c = { { workDir, color = { fg = "#81a1c1" } } },
-    lualine_x = { 'encoding', 'fileformat', { 'filetype', color = { fg = G.ftcolor } } },
-    lualine_y = { 'progress', { bar, color = fcolor } },
+    lualine_x = {
+      {
+        lspname,
+        icon = " LSP:",
+        color = { fg = "#131a24", bg = G.ftcolor },
+      },
+      { 'filetype',
+        color = { bg = "#000000", fg = G.ftcolor }
+      },
+      {
+        'encoding',
+        icon = "",
+        color = { bg = "#baa1e2", fg = "#131a24" }
+      },
+      {
+        'fileformat',
+        color = { bg = G.icons[G.system]["color"], fg = "#131a24" }
+      },
+    },
+    lualine_y = { 'progress', { bar, color = { fg = G.ftcolor } } },
     lualine_z = { 'location' }
   },
   tabline = {
     lualine_a = {
       {
         'buffers',
-        mode               = 2, -- 0: Shows buffer name
-        icons_enabled      = true,
-        max_length         = vim.o.columns * 2 / 3,
-        symbols            = {
+        mode          = 2, -- 0: Shows buffer name
+        icons_enabled = true,
+        max_length    = vim.o.columns * 2 / 3,
+        symbols       = {
           modified = ' ', -- Text to show when the buffer is modified
           alternate_file = ' ', -- Text to show to identify the alternate file
           directory = ' ', -- Text to show when the buffer is a directory
         },
-        separator          = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
       },
     },
-    lualine_z = { { 'tabs',
-      separator          = { left = "", right = "" },
-      section_separators = { left = "", right = "" },
-    } },
-    lualine_c = { { navic.get_location, cond = navic.is_available } }
+    lualine_c = { { navic.get_location, cond = navic.is_available,
+      separator = { right = "" },
+    } }
   },
   extensions = { 'quickfix', 'fzf', 'nvim-tree' }
 }

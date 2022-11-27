@@ -54,24 +54,29 @@ Dap.load = function()
   Dap.dap.listeners.after.event_initialized["dapui_config"] = function()
     Dap.open()
   end
-  Dap.dap.listeners.before.event_terminated["dapui_config"] = function()
-    Dap.close()
-  end
-  Dap.dap.listeners.before.event_exied["dapui_config"] = function()
-    Dap.close()
-  end
+  -- Dap.dap.listeners.before.event_terminated["dapui_config"] = function()
+    -- Dap.ui.close()
+  -- end
+  -- Dap.dap.listeners.before.event_exied["dapui_config"] = function()
+    -- Dap.ui.close()
+  -- end
 end
 
 Dap.close = function()
   vim.cmd [[DapVirtualTextDisable]]
-  if vim.fn.bufexists("[dap-repl]") == 1 then
-    vim.cmd [[bd! dap-repl]]
+  local bufnr = vim.fn.buffer_number("dap-repl")
+  if bufnr ~= -1 then
+    vim.cmd [[DapTerminate]]
+    vim.cmd("bd! " .. bufnr)
   end
+  vim.cmd [[NvimTreeToggle]]
+  vim.cmd [[wincmd w]]
   Dap.ui.close()
 end
 
 Dap.open = function()
   vim.cmd [[DapVirtualTextEnable]]
+  vim.cmd [[NvimTreeToggle]]
   Dap.ui.open()
 end
 

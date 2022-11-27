@@ -13,6 +13,9 @@ A.setup = function(table, tf)
     keymap(bufnr, "n", "<leader>-", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
     keymap(bufnr, "n", "sdn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
     keymap(bufnr, "i", "<C-l>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    keymap(bufnr, "n", "", ":Comm<CR>", opts)
+    keymap(bufnr, "v", "", ":Comm<CR>", opts)
+    keymap(bufnr, "n", "sg", ":tabnew term://lazygit<CR>", opts)
 
     if table then
       for _, value in pairs(table) do
@@ -22,7 +25,6 @@ A.setup = function(table, tf)
 
     if tf then
       for _, value in pairs(tf) do
-        print(value[1], value[2])
         value[1](value[2])
       end
     end

@@ -3,19 +3,32 @@ local fn = vim.fn
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system({
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  })
+  local handle
+  local pid_or_err
+  local opts = {
+    stdio = { nil, nil, nil },
+    args = {
+      "clone",
+      "--depth",
+      "1",
+      "https://github.com/wbthomason/packer.nvim",
+      install_path,
+    },
+    detached = true
+  }
+  handle, pid_or_err = vim.loop.spawn("git", opts, function(code)
+    handle:close()
+    if code ~= 0 then
+      vim.notify('dlv exited with code ' .. code, "warn", { title = "Dap" })
+      return
+    end
+    PACKER_BOOTSTRAP = true
+  end)
+  assert(handle, 'Error running dlv: ' .. tostring(pid_or_err))
   print("Installing packer close and reopen Neovim...")
   vim.cmd([[packadd packer.nvim]])
 end
 
--- autocmd BufWritePost plugins.lua source <afile> | PackerSync
 vim.cmd([[
   augroup packer_user_config
     autocmd!
@@ -78,25 +91,13 @@ return packer.startup(function(use)
 
   -- Nvim-tree
   -- use {'nvim-tree/nvim-tree.lua', config = require("")}
-  use { 'nvim-tree/nvim-tree.lua', config = function()
-    vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
-      callback = function(args)
-        if vim.fn.expand "%:p" ~= "" then
-          vim.api.nvim_del_autocmd(args.id)
-          vim.cmd "noautocmd NvimTreeOpen"
-          vim.schedule(function()
-            vim.cmd "wincmd p"
-          end)
-        end
-      end,
-    })
-  end }
+  use { 'nvim-tree/nvim-tree.lua'}
 
   -- icon
   use { 'nvim-tree/nvim-web-devicons', config = function()
     require("nvim-web-devicons").set_icon {
       java = {
-        icon = "",
+        icon = "☕",
         color = "#ae0014",
         cterm_color = "red",
         name = "java"

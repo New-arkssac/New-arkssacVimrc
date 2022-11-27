@@ -25,16 +25,20 @@ G.icons = {
     ["kali"] = " ",
     ["linux"] = " ",
     ["Ubuntul"] = " ",
-    ["Normal"] = " "
+    ["Normal"] = " ",
+    ["color"] = "#f3b416"
   },
   mac = {
-    ["Darwin"] = " "
+    ["Darwin"] = " ",
+    ["color"] = "#4b63c6"
   },
   windows = {
     ["Windows"] = " ",
+    ["color"] = "#f0652b"
   },
   wsl = {
-    ["microsoft"] = " "
+    ["microsoft"] = " ",
+    ["color"] = "#7aad01"
   }
 }
 
@@ -56,6 +60,24 @@ local system = {
   microsoft = "wsl",
   win32 = "windows",
   Darwin = "mac"
+}
+local server = {
+  lua = "sumneko_lua",
+  go = "gopls",
+  json = "jsonls",
+  -- java = "jdtls",
+  python = "pyright",
+  c = "clangd"
+}
+
+G.lspserver = server
+G.Supported = {
+  python = {},
+  lua = {},
+  vim = {},
+  cpp = {},
+  go = {},
+  c = {}
 }
 
 local getOs = function()
@@ -80,7 +102,6 @@ local getOs = function()
   end
   return "linux", "linux"
 end
-
 
 G.os, G.system = getOs()
 return G

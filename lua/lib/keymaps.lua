@@ -40,6 +40,7 @@ keymap("i", "<C-p>", [[<ESC>"+p]], opt) -- insert mod paste from clipborad
 keymap("v", ">", ">gv", opt)
 keymap("v", "<", "<gv", opt)
 keymap("v", "p", '"_dP', opt)
+keymap("n", "sD", ":bd!<CR>", opt)
 keymap("n", "sy", ":OpenClip<CR>", opt)
 keymap("n", "sP", ":PastUpload<CR>", opt)
 keymap("n", "sp", ":PastImage<CR>", opt)
@@ -52,16 +53,3 @@ keymap("i", ",P", "<ESC>:PastUpload<CR>i", opt)
 -- keymap("i", "[", [[[]<left>]], opt) -- [ -> []
 -- keymap("i", "{", [[{}<left>]], opt) -- { -> {}
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  callback = function(args)
-    local ft, _ = vim.filetype.match { filename = args.match, buf = args.buf }
-    local opts = { noremap = true, silent = true }
-    local kmap = vim.api.nvim_buf_set_keymap
-    if ft == "go" or ft == "lua" or ft == "vim" or ft == "python" or ft == "c" or ft == "cpp" then
-      vim.cmd [[command! -range Comm :lua M.comm()]]
-      vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]
-      kmap(args.buf, "n", "", ":Comm<CR>", opts)
-      kmap(args.buf, "v", "", ":Comm<CR>", opts)
-    end
-  end
-})

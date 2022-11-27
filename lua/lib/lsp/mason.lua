@@ -11,7 +11,8 @@ require("mason").setup({
   max_concurrent_installers = 4,
 })
 require("mason-lspconfig").setup({
-  ensure_installed = { "sumneko_lua",
+  ensure_installed = {
+    "sumneko_lua",
     "gopls",
     "jsonls",
     "jdtls",
@@ -144,13 +145,6 @@ local configurations = {
   }
 }
 
-local server = {
-  lua = "sumneko_lua",
-  go = "gopls",
-  json = "jsonls",
-  python = "pyright",
-  c = "clangd"
-}
 
 
 local signs = {
@@ -191,37 +185,32 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
   border = "rounded",
 })
 
+local ft, _ = vim.filetype.match({ filename = vim.fn.expand("%:p") })
+local lsp = G.lspserver[ft]
+if lsp == nil then
+  return
+end
+local opts = {}
+local require_ok, setting = pcall(require, "lib.lsp.settings." .. ft)
+if not require_ok then
+  return
+end
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
-  callback = function(args)
-    local opts = {}
-    local ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
+vim.schedule(function()
+  local dap = require 'lib.lsp.settings.dap'
+  local apter, conf = adapter[ft], configurations[ft]
+  if apter == nil or conf == nil then
+    return
+  end
+  dap.setup()
+  dap.load()
+  dap.dap.adapters[ft] = apter
+  dap.dap.configurations[ft] = conf
+end)
 
-    local lsp = server[ft]
-    if lsp == nil then
-      return
-    end
-
-    local require_ok, setting = pcall(require, "lib.lsp.settings." .. ft)
-    if not require_ok then
-      return
-    end
-
-    vim.schedule(function()
-      local dap = require 'lib.lsp.settings.dap'
-      local apter, conf = adapter[ft], configurations[ft]
-      if apter == nil or conf == nil then
-        return
-      end
-      dap.setup()
-      dap.load()
-      dap.dap.adapters[ft] = apter
-      dap.dap.configurations[ft] = conf
-    end)
-
-    local opt = require "lib.lsp.handle"
-    opt.on_attach = setting.on_attach
-    opts = vim.tbl_deep_extend("force", setting.config, opt)
-    require("lspconfig")[lsp].setup(opts)
-  end,
-})
+local opt = require "lib.lsp.handle"
+opt.on_attach = setting.on_attach
+opts = vim.tbl_deep_extend("force", setting.config, opt)
+require("lspconfig")[lsp].setup(opts)
+vim.cmd [[command! -range Comm :lua M.comm()]]
+vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]
