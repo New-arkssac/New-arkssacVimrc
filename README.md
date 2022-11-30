@@ -280,7 +280,7 @@ ok看到这里已经默认你已经完成以上的配置了
 | `<F8>`     | 停止当前DEBUG       |
 | `<F9>`     | 打断点              |
 
-~~![vimspector](https://file.fishpi.cn/2022/11/20221123125558-b0e9ae9d.png)~~
+![nvim-dap](https://file.fishpi.cn/2022/11/20221130111558-4ddbce0b.png) 
 
 
 #### 编辑历史
