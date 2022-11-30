@@ -18,9 +18,6 @@ require("mason-lspconfig").setup({
     "jdtls",
     "pyright",
     "clangd",
-    -- "cpptools",
-    -- "debugpy",
-    -- "delve",
   },
   automatic_installation = true,
 })
@@ -32,17 +29,25 @@ local adapter = {
     args = { '-m', 'debugpy.adapter' }
   },
   go = function(cb)
+    local stdin = vim.loop.new_pipe(false)
     local stdout = vim.loop.new_pipe(false)
+    local stderr = vim.loop.new_pipe(false)
     local handle
     local pid_or_err
     local port = 38697
     local opts = {
-      stdio = { nil, stdout },
-      args = { "dap", "-l", "127.0.0.1:" .. port, "--check-go-version=false", "--log", " --log-output=dap" },
+      stdio = { stdin, stdout, stderr },
+      -- args = { "--", G.home .. '/.local/share/nvim/mason/bin/dlv', "debug", "--listen=127.0.0.1:" .. port, "--headless",
+        -- "--log", "--api-version=2", "--accept-multiclient" },
+      args = G.info[G.system][G.os].cmd.dapargs,
+      -- args = { "debug", "-l", "127.0.0.1:" .. port, "--headless", "--log", "--api-version=2", "--check-go-version=false" },
       detached = true
     }
-    handle, pid_or_err = vim.loop.spawn(os.getenv("HOME") .. '/.local/share/nvim/mason/bin/dlv', opts, function(code)
+    handle, pid_or_err = vim.loop.spawn(G.info[G.system][G.os].cmd.terminal, opts, function(code)
+      -- handle, pid_or_err = vim.loop.spawn(G.home .. '/.local/share/nvim/mason/bin/dlv', opts, function(code)
       -- handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
+      stdin:close()
+      stderr:close()
       stdout:close()
       handle:close()
       if code ~= 0 then
@@ -50,6 +55,7 @@ local adapter = {
       end
     end)
     assert(handle, 'Error running dlv: ' .. tostring(pid_or_err))
+
     stdout:read_start(function(err, chunk)
       assert(not err, err)
       if chunk then
@@ -58,6 +64,16 @@ local adapter = {
         end)
       end
     end)
+
+    stderr:read_start(function(err, chunk)
+      assert(not err, err)
+      if chunk then
+        vim.schedule(function()
+          require('dap.repl').append(chunk)
+        end)
+      end
+    end)
+
     vim.defer_fn(
       function()
         cb({ type = "server", host = "127.0.0.1", port = port })
@@ -97,32 +113,20 @@ local configurations = {
     {
       type = "go",
       name = "Debug workspace",
-      request = "launch",
+      request = "attach",
       program = "${workspaceFolder}",
-      mode = "debug",
-      console = "integratedTerminal",
+      mode = "remote",
+      remotePath = "${workspaceFolder}",
     },
     {
       type = "go",
       name = "Debug file",
-      mode = "debug",
-      request = "launch",
-      program = "${file}",
-      console = "integratedConsole",
-    },
-    {
-      type = "go",
-      name = "Debug vscode-go",
-      request = 'launch';
-      showLog = false;
-      program = "${file}";
-      dlvToolPath = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/dlv",
-      console = "externalTerminal",
+      request = 'attach';
+      mode = "remote",
+      remotePath = "${fileDirname}",
+      program = "${fileDirname}",
     },
   },
-  -- go = function ()
-  -- require "dap.ext.vscode".load_launchjs("./.nvim/launch.json", { go = { "go" } })
-  -- end,
   c = {
     {
       name = "Launch current file",
@@ -136,16 +140,15 @@ local configurations = {
       name = "Launch appoint file",
       type = "c",
       request = "launch",
-      program = function()
-        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      program = function() return vim
+            .fn
+            .input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
       end,
       cwd = '${workspaceFolder}',
       stopAtEntry = true,
     },
   }
 }
-
-
 
 local signs = {
   { name = "DiagnosticSignError", text = "﫝" },
@@ -154,8 +157,9 @@ local signs = {
   { name = "DiagnosticSignInfo", text = "" },
 }
 
-for _, sign in ipairs(signs) do
-  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+for _, sign in ipairs(signs) do vim
+      .fn
+      .sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
 end
 
 local config = {
@@ -175,42 +179,59 @@ local config = {
   },
 }
 
-vim.diagnostic.config(config)
+vim
+    .diagnostic
+    .config(config)
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
+vim
+    .lsp
+    .handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover,
+  {
+    border = "rounded",
+  }
+)
 
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "rounded",
-})
+vim
+    .lsp
+    .handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  {
+    border = "rounded",
+  }
+)
 
-local ft, _ = vim.filetype.match({ filename = vim.fn.expand("%:p") })
+local ft, _ = vim
+    .filetype
+    .match({ filename = vim.fn.expand("%:p") })
 local lsp = G.lspserver[ft]
-if lsp == nil then
-  return
-end
+
+if lsp == nil then return end
+
 local opts = {}
 local require_ok, setting = pcall(require, "lib.lsp.settings." .. ft)
-if not require_ok then
-  return
-end
+
+if not require_ok then return end
 
 vim.schedule(function()
-  local dap = require 'lib.lsp.settings.dap'
   local apter, conf = adapter[ft], configurations[ft]
-  if apter == nil or conf == nil then
-    return
-  end
+  if apter == nil or conf == nil then return end
+
+  local dap = require 'lib.lsp.settings.dap'
   dap.setup()
   dap.load()
-  dap.dap.adapters[ft] = apter
-  dap.dap.configurations[ft] = conf
+  dap
+      .dap
+      .adapters[ft] = apter
+  dap
+      .dap
+      .configurations[ft] = conf
 end)
 
 local opt = require "lib.lsp.handle"
 opt.on_attach = setting.on_attach
 opts = vim.tbl_deep_extend("force", setting.config, opt)
+
 require("lspconfig")[lsp].setup(opts)
 vim.cmd [[command! -range Comm :lua M.comm()]]
 vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]

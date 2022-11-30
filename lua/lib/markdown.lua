@@ -1,10 +1,19 @@
-vim.g.mkdp_browser = 'chromium'
-vim.g.mkdp_page_title = '「${name}」'
-vim.g.mkdp_filetypes = { 'markdown', "vimwiki" }
-vim.g.mkdp_theme = 'dark'
-vim.g.mkdp_auto_start = 1
-vim.g.mkdp_auto_close = 0
-vim.g.mkdp_command_for_global = 1
+-- vim.g.mkdp_browser = 'chromium'
+-- vim.g.mkdp_page_title = '「${name}」'
+-- vim.g.mkdp_filetypes = { 'markdown', "vimwiki" }
+-- vim.g.mkdp_theme = 'dark'
+-- vim.g.mkdp_auto_start = 1
+-- vim.g.mkdp_auto_close = 0
+-- vim.g.mkdp_command_for_global = 1
+O.addOpt {
+  { "g", "mkdp_browser", "chromium" },
+  { "g", "mkdp_page_title", "「${name}」" },
+  { "g", "mkdp_filetypes", { 'markdown', "vimwiki" } },
+  { "g", "mkdp_theme", 'dark' },
+  { "g", "mkdp_auto_start", 1 },
+  { "g", "mkdp_auto_close", 0 },
+  { "g", "mkdp_command_for_global", 1 }
+}
 
 -- autocmd Filetype markdown inoremap <buffer> ,w <Esc>/ <++><CR>:nohlsearch<CR>"_c5l<CR>
 -- autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>

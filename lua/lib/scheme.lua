@@ -10,18 +10,14 @@ local lspname = function()
   local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
   local clients = vim.lsp.get_active_clients()
 
-  if next(clients) == nil then
-    return msg
-  end
+  if next(clients) == nil then return msg end
 
   for _, client in ipairs(clients) do
     local filetypes = client.config.filetypes
-    if client.config.name == "null-ls" then
-      goto continue
-    end
-    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-      return client.config.name
-    end
+
+    if client.config.name == "null-ls" then goto continue end
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then return client.config.name end
+
     ::continue::
   end
   return msg
@@ -57,9 +53,7 @@ require('nightfox').setup({
 })
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
-if not status_ok then
-  print("colorscheme " .. scheme .. " not found!")
-end
+if not status_ok then print("colorscheme " .. scheme .. " not found!") end
 
 local bar = function()
   local sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
@@ -116,34 +110,38 @@ navic.setup {
   safe_output = true
 }
 
-vim.api.nvim_set_hl(0, "NavicIconsFile", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsModule", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsNamespace", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsPackage", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsClass", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsMethod", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsProperty", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsField", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsConstructor", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsEnum", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsInterface", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsFunction", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsVariable", { default = true, bg = "#232831", fg = "#b8babd" })
-vim.api.nvim_set_hl(0, "NavicIconsConstant", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsString", { default = true, bg = "#232831", fg = "#9eb889" })
-vim.api.nvim_set_hl(0, "NavicIconsNumber", { default = true, bg = "#232831", fg = "#c37f6a" })
-vim.api.nvim_set_hl(0, "NavicIconsBoolean", { default = true, bg = "#232831", fg = "#c37f6a" })
-vim.api.nvim_set_hl(0, "NavicIconsArray", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsObject", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsKey", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsNull", { default = true, bg = "#232831", fg = "#c37f6a" })
-vim.api.nvim_set_hl(0, "NavicIconsEnumMember", { default = true, bg = "#232831", fg = "#c37f6a" })
-vim.api.nvim_set_hl(0, "NavicIconsStruct", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsEvent", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsOperator", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { default = true, bg = "#232831", fg = "#b48ead" })
-vim.api.nvim_set_hl(0, "NavicText", { default = true, bg = "#232831", fg = "#b8babd" })
-vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, bg = "#232831", fg = "#b48ead" })
+local hl = {
+  { 0, "NavicIconsFile", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsModule", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsNamespace", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsPackage", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsClass", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsMethod", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsProperty", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsField", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsConstructor", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsEnum", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsInterface", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsFunction", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsVariable", { default = true, bg = "#232831", fg = "#b8babd" } },
+  { 0, "NavicIconsConstant", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsString", { default = true, bg = "#232831", fg = "#9eb889" } },
+  { 0, "NavicIconsNumber", { default = true, bg = "#232831", fg = "#c37f6a" } },
+  { 0, "NavicIconsBoolean", { default = true, bg = "#232831", fg = "#c37f6a" } },
+  { 0, "NavicIconsArray", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsObject", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsKey", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsNull", { default = true, bg = "#232831", fg = "#c37f6a" } },
+  { 0, "NavicIconsEnumMember", { default = true, bg = "#232831", fg = "#c37f6a" } },
+  { 0, "NavicIconsStruct", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsEvent", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsOperator", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicIconsTypeParameter", { default = true, bg = "#232831", fg = "#b48ead" } },
+  { 0, "NavicText", { default = true, bg = "#232831", fg = "#b8babd" } },
+  { 0, "NavicSeparator", { default = true, bg = "#232831", fg = "#b48ead" } },
+}
+
+for i = 1, #hl do vim.api.nvim_set_hl(hl[i][1], hl[i][2], hl[i][3]) end
 
 require('lualine').setup {
   options = {
@@ -166,7 +164,7 @@ require('lualine').setup {
     },
   },
   sections = {
-    lualine_a = { { 'mode', icon = G.icons[G.system][G.os], } },
+    lualine_a = { { 'mode', icon = G.info[G.system][G.os].icon, } },
     lualine_b = { { 'branch', icon = " ", color = { fg = "#e94d34" } },
       {
         'diff',
@@ -182,7 +180,7 @@ require('lualine').setup {
         color = { fg = "#131a24", bg = G.ftcolor },
       },
       { 'filetype',
-        color = { bg = "#000000", fg = G.ftcolor }
+        color = { bg = "#000000", fg = G.ftcolor, bold = true }
       },
       {
         'encoding',
@@ -191,7 +189,7 @@ require('lualine').setup {
       },
       {
         'fileformat',
-        color = { bg = G.icons[G.system]["color"], fg = "#131a24" }
+        color = { bg = G.info[G.system]["color"], fg = "#131a24" }
       },
     },
     lualine_y = { 'progress', { bar, color = { fg = G.ftcolor } } },

@@ -1,12 +1,16 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+-- vim.opt.termguicolors = true
 
--- set termguicolors to enable highlight groups
-vim.opt.termguicolors = true
+O.addOpt {
+  { "g", "loaded_netrw", 1 },
+  { "g", "loaded_netrwPlugin", 1 },
+  { "opt", "termguicolors", true },
+}
 
-local keymap = vim.keymap.set
-
-keymap("n", "<LEADER>f", ":NvimTreeToggle<CR>:wincmd w<CR>", { silent = true })
+K.addKeymap {
+  { "n", "<LEADER>f", ":NvimTreeToggle<CR>:wincmd w<CR>", { silent = true } }
+}
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
@@ -92,4 +96,3 @@ require("nvim-tree").setup({
     },
   },
 })
-

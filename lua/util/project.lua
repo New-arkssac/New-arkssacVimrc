@@ -1,5 +1,4 @@
 P = {}
-local uv = vim.loop
 
 local projectInitialization = function(file, cmd, args, title)
 
@@ -18,25 +17,25 @@ local projectInitialization = function(file, cmd, args, title)
         stdout:close()
         stderr:close()
         handle:close()
-        if flag then
-          vim.notify(file .. " create finish!", "info", { title = title })
-        end
+
+        if flag then vim.notify(file .. " create finish!", "info", { title = title }) end
+
         handle, stderr, stdout = nil, nil, nil
       end))
 
-    vim.loop.read_start(stdout, function(err, data)
+    stdout:read_start(function(err, data)
       assert(not err, err)
       if data ~= nil then
         flag = false
-        vim.notify(data)
+        vim.notify(data, "info", { title = title })
       end
     end)
 
-    vim.loop.read_start(stderr, function(err, data)
+    stderr:read_start(function(err, data)
       assert(not err, err)
       if data ~= nil then
         flag = false
-        vim.notify(data, "info")
+        vim.notify(data, "info", { title = title })
       end
     end)
 
@@ -109,16 +108,13 @@ local projectMain = {
 local start = function()
   local ft = vim.bo.filetype
   local t = projectType[ft]
-  for _, value in pairs(t) do
-    projectInitialization(value[1], value[2], value[3], value[4])
-  end
+
+  for _, value in pairs(t) do projectInitialization(value[1], value[2], value[3], value[4]) end
 end
 
 P.newProject = function(dir, n, suffix)
   local file = io.open(dir, "r")
-  if file == nil then
-    vim.fn.system("mkdir " .. dir)
-  else
+  if file == nil then vim.fn.system("mkdir " .. dir) else
     dir = G.projectpath .. n
     P.newProject(dir, n + 1, suffix)
     file:close()
@@ -128,9 +124,9 @@ P.newProject = function(dir, n, suffix)
   vim.fn.system("cd ./" .. dir)
   vim.cmd("cd ./" .. dir)
   vim.cmd("edit main." .. suffix)
-  for _, value in pairs(projectMain[suffix]) do
-    vim.fn.setline(value[1], value[2])
-  end
+
+  for _, value in pairs(projectMain[suffix]) do vim.fn.setline(value[1], value[2]) end
+
   P.projectInitialization()
 end
 

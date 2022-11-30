@@ -1,5 +1,11 @@
 Dap = {}
-Dap.dap, Dap.ui, Dap.vtext = require "dap", require "dapui", require "nvim-dap-virtual-text"
+Dap.dap,
+    Dap.ui,
+    Dap.vtext,
+    Dap.repl = require "dap",
+    require "dapui",
+    require "nvim-dap-virtual-text",
+    require "dap.repl"
 
 Dap.setup = function()
   Dap.vtext.setup {
@@ -25,6 +31,7 @@ Dap.setup = function()
         elements = {
           -- Elements can be strings or table with id and size keys.
           "breakpoints",
+          "scopes",
           "watches",
         },
         size = 40, -- 40 columns
@@ -32,15 +39,14 @@ Dap.setup = function()
       },
       {
         elements = {
+          "console",
           "stacks",
-          "scopes",
         },
         size = 40, -- 25% of total lines
         position = "right",
       },
       {
         elements = {
-          "console",
           "repl",
         },
         size = 0.25, -- 25% of total lines
@@ -51,34 +57,39 @@ Dap.setup = function()
 end
 
 Dap.load = function()
+
   Dap.dap.listeners.after.event_initialized["dapui_config"] = function()
     Dap.open()
   end
-  -- Dap.dap.listeners.before.event_terminated["dapui_config"] = function()
-    -- Dap.ui.close()
-  -- end
-  -- Dap.dap.listeners.before.event_exied["dapui_config"] = function()
-    -- Dap.ui.close()
-  -- end
+
+  Dap.dap.listeners.before.event_terminated["dapui_config"] = function()
+    vim.cmd [[DapTerminate]]
+    Dap.close()
+  end
+
+  Dap.dap.listeners.before.event_exied["dapui_config"] = function()
+    vim.cmd [[DapTerminate]]
+    Dap.close()
+  end
+
 end
 
 Dap.close = function()
-  vim.cmd [[DapVirtualTextDisable]]
-  local bufnr = vim.fn.buffer_number("dap-repl")
-  if bufnr ~= -1 then
-    vim.cmd [[DapTerminate]]
-    vim.cmd("bd! " .. bufnr)
-  end
-  vim.cmd [[NvimTreeToggle]]
-  vim.cmd [[wincmd w]]
+  vim
+      .cmd [[DapVirtualTextDisable]]
+  vim
+      .cmd [[DapTerminate]]
+
   Dap.ui.close()
+  Dap.repl.close()
 end
 
 Dap.open = function()
-  vim.cmd [[DapVirtualTextEnable]]
-  vim.cmd [[NvimTreeToggle]]
+  vim
+      .cmd [[DapVirtualTextEnable]]
   Dap.ui.open()
 end
+
 
 vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'CursorLineNr', linehl = '', numhl = '' })
 vim.fn.sign_define('DapStopped', { text = '', texthl = 'Character', linehl = '', numhl = '' })

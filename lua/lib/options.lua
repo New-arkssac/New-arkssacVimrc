@@ -1,31 +1,45 @@
-vim.cmd.filetype = { "on", indent = "on", plugin = "on" }
-vim.opt.number = true
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
-vim.opt.tw = 0
-vim.opt.textwidth = 100
-vim.opt.encoding = "utf-8"
-vim.opt.softtabstop = 2
-vim.opt.backspace = { "indent", "eol", "start" }
-vim.opt.tags = { "./.tags", ".tags", "./**/.tags" }
-vim.opt.showcmd = true
-vim.opt.wildmenu = true
-vim.opt.wrap = true
-vim.opt.scrolloff = 5
-vim.opt.sidescroll = 20
-vim.opt.laststatus = 2
-vim.opt.showmatch = true
-vim.opt.expandtab = true
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-vim.opt.smartcase = true
-vim.opt.ignorecase = true
-vim.opt.ttimeout = true
-vim.opt.ttimeoutlen = 100
-vim.opt.updatetime = 100
+O = {}
+
+local opt = {
+  number = true,
+  tabstop = 2,
+  shiftwidth = 2,
+  tw = 0,
+  textwidth = 100,
+  encoding = "utf-8",
+  softtabstop = 2,
+  backspace = { "indent", "eol", "start" },
+  tags = { "./.tags", ".tags", "./**/.tags" },
+  showcmd = true,
+  wildmenu = true,
+  wrap = true,
+  scrolloff = 5,
+  sidescroll = 20,
+  laststatus = 2,
+  showmatch = true,
+  expandtab = true,
+  hlsearch = true,
+  incsearch = true,
+  smartcase = true,
+  ignorecase = true,
+  ttimeout = true,
+  ttimeoutlen = 100,
+  updatetime = 100,
+  syntax = "on",
+  termguicolors = true,
+}
+
+for key, value in pairs(opt) do vim.opt[key] = value end
+
+O.addOpt = function(option)
+  if not option then return end
+
+  for i = 1, #option do vim[option[i][1]][option[i][2]] = option[i][3] end
+end
+
 vim.opt.shortmess:append "c"
 vim.g.mapleader = " "
-vim.opt.syntax = "on"
-vim.opt.termguicolors = true
+vim.cmd.filetype = { "on", indent = "on", plugin = "on" }
 vim.cmd [[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]
+
+return O

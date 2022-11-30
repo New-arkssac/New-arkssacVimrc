@@ -57,6 +57,7 @@
 - [ ]  如果你是`linux` 用户且使用的是`x11` 标准图形桌面，你得需要额外安装`xclip` 此软件是`Neovim`
       与`x11` 标准图形桌面的剪切板进行交互的，windows则不需要，因为windows有强大的`powershell` 
 - [ ]  最后你还得安装一个[Rg](https://github.com/BurntSushi/ripgrep) 功能请行查看
+- [ ]  需要安装lazygi来支持快捷键在新的标签页打开lazygit的ui界面
 
 
 ## 配置特性
@@ -108,6 +109,7 @@ ok看到这里已经默认你已经完成以上的配置了
 | `<Ctrl-c>`  | VISUAL | 复制选中的字符到系统剪切板 |
 | `<Ctrl-p>`  | NORMAL | 粘贴系统剪切板里的字符     |
 | `<Ctrl-p>`  | INSERT | 粘贴系统剪切板里的字符     |
+| `sg`        | INSERT | 打开lazygit                |
    
 ### 插件
 #### 插件管理器
@@ -266,19 +268,19 @@ ok看到这里已经默认你已经完成以上的配置了
 
 #### DEBUG
 
-[vimspector](https://github.com/puremourning/vimspector) 
+从 ~~[vimspector](https://github.com/puremourning/vimspector)~~ 过度到[nvim-dap](https://github.com/mfussenegger/nvim-dap) 
 
-| 快捷键     | 行为                  |
-|------------|-----------------------|
-| `<Ctrl-q>` | 退出DEBUG             |
-| `<F5>`     | 开始DEBUG             |
-| `<F4>`     | 使用当前配置重新DEBUG |
-| `<F9>`     | 打断点                |
-| `<Alt-l>`  | DEBUG步进一           |
-| `<Alt-i>`  | 手动输入监听参数      |
-| `<Alt-'>`  | 开启栈堆              |
+| 快捷键     | 行为                |
+|------------|---------------------|
+| `<Ctrl-q>` | 退出DEBUG           |
+| `<F3>`     | DEBUG步进一         |
+| `<F4>`     | DEBUG步进           |
+| `<F5>`     | 开始DEBUG           |
+| `<F7>`     | debug到程序最后一步 |
+| `<F8>`     | 停止当前DEBUG       |
+| `<F9>`     | 打断点              |
 
-![vimspector](https://file.fishpi.cn/2022/11/20221123125558-b0e9ae9d.png) 
+~~![vimspector](https://file.fishpi.cn/2022/11/20221123125558-b0e9ae9d.png)~~
 
 
 #### 编辑历史

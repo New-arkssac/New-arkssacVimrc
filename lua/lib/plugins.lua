@@ -91,7 +91,7 @@ return packer.startup(function(use)
 
   -- Nvim-tree
   -- use {'nvim-tree/nvim-tree.lua', config = require("")}
-  use { 'nvim-tree/nvim-tree.lua'}
+  use { 'nvim-tree/nvim-tree.lua' }
 
   -- icon
   use { 'nvim-tree/nvim-web-devicons', config = function()
@@ -115,7 +115,8 @@ return packer.startup(function(use)
       "mfussenegger/nvim-dap",
       "theHamsta/nvim-dap-virtual-text"
     },
-    ft = { "go", "python", "lua", "c", "cpp", "java", "json" },
+    -- ft = "java",
+    ft = { "go", "python", "lua", "c", "cpp", "java" }
     -- config = function ()
     -- require "lib.dap"
     -- end

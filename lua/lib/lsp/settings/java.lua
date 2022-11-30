@@ -55,9 +55,9 @@ local config = {
   },
   on_attach = require "lib.lsp.settings.attach".setup({
     { "n", "<F3>", "<Cmd>lua require'dap'.step_into()<CR>", opts },
-    { "n", "<F4>", "<Cmd>lua require'dap'.step_out()<CR>", opts },
+    { "n", "<F4>", "<Cmd>lua require'dap'.step_over()<CR>", opts },
     { "n", "<F5>", "<Cmd>lua require'dap'.continue()<CR>", opts },
-    { "n", "<F6>", "<Cmd>lua require'dap'.step_over()<CR>", opts },
+    { "n", "<F6>", "<Cmd>lua require'dap'.step_out()<CR>", opts },
     { "n", "<F8>", "<Cmd>DapTerminate<CR>", opts },
     { "n", "<F9>", "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", opts },
     { "n", "<C-q>", "<Cmd>lua Dap.close()<CR>", opts },

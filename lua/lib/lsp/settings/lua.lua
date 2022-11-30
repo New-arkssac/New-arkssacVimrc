@@ -1,6 +1,9 @@
 L = {}
 
-L.on_attach = require "lib.lsp.settings.attach".setup()
+local opts = { noremap = true, silent = true, nowait = true }
+L.on_attach = require "lib.lsp.settings.attach".setup({
+  { "n", "<A-r>", ":source % | nohlsearch <CR>", opts }
+})
 
 L.config = {
   settings = {

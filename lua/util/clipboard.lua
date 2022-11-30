@@ -15,13 +15,10 @@ local errMag = {
 }
 
 local function handle()
-  if command[G.system] == nil then
-    return false, "Can't use the " .. G.os .. " OS clipboard"
-  end
+  if command[G.system] == nil then return false, "Can't use the " .. G.os .. " OS clipboard" end
 
-  if vim.fn.executable(command[G.system][1]) ~= 1 then
-    return false, errMag[G.system]
-  end
+  if vim.fn.executable(command[G.system][1]) ~= 1 then return false, errMag[G.system] end
+
   return true, command[G.system][2]
 end
 
@@ -33,9 +30,7 @@ local function saveImage()
     return nil
   end
 
-  if vim.fn.isdirectory(G.imagepath) then
-    vim.fn.system("mkdir " .. G.imagepath)
-  end
+  if vim.fn.isdirectory(G.imagepath) then vim.fn.system("mkdir " .. G.imagepath) end
 
   local filename = G.imagepath .. "/" .. os.date("%Y%m%d%H%M%S") .. ".png"
   local path = string.format(cmd, filename)
@@ -50,9 +45,8 @@ end
 
 local function upload()
   local path = saveImage()
-  if path == nil then
-    return
-  end
+  if path == nil then return end
+
   local args = {
     "--location",
     "--request", "POST", G.url,
@@ -63,6 +57,7 @@ local function upload()
   local cmd
   local stdout = vim.loop.new_pipe()
   local stderr = vim.loop.new_pipe()
+
   cmd = vim.loop.spawn("curl", { args = args, stdio = { nil, stdout, stderr } },
     vim.schedule_wrap(function()
       stdout:close()
@@ -70,7 +65,7 @@ local function upload()
       cmd:close()
       cmd, stderr, stdout = nil, nil, nil
     end))
-  vim.loop.read_start(stdout, vim.schedule_wrap(function(err, data)
+  stdout:read_start( vim.schedule_wrap(function(err, data)
     assert(not err, err)
     if data ~= nil then
       data = data:match("https://.+%.png")
@@ -79,20 +74,18 @@ local function upload()
     end
   end))
 
-  vim.loop.read_start(stderr, function(err, data)
+  stderr:read_start( function(err, data)
     assert(not err, err)
-    if data ~= nil then
-      vim.notify(data, "info")
-    end
+    if data ~= nil then vim.notify(data, "info") end
   end)
 end
 
 function HandleHistory(data)
   if #I.cliphistory == 5 then
     table.remove(I.cliphistory)
-    for i = 5, 1, -1 do
-      I.cliphistory[i] = "[" .. i .. "] " .. I.cliphistory[i - 1]
-    end
+
+    for i = 5, 1, -1 do I.cliphistory[i] = "[" .. i .. "] " .. I.cliphistory[i - 1] end
+
     I.cliphistory[1] = "[1] " .. data
     return
   end
@@ -101,14 +94,11 @@ function HandleHistory(data)
 end
 
 function Past(data)
-  if data == nil then
-    return
-  end
+  if data == nil then return end
 
   local lineString = vim.fn.getline(".")
-  if lineString == "" then
-    vim.fn.setline(".", " ")
-  end
+
+  if lineString == "" then vim.fn.setline(".", " ") end
 
   local getcolnum = vim.fn.getcurpos()
   local col = getcolnum[3]
@@ -127,9 +117,7 @@ local openClip = function(columns)
   local keymapOpt = { silent = true }
   local line = vim.fn.getcurpos()
 
-  if line[3] < 20 then
-    left = left + 10
-  end
+  if line[3] < 20 then left = left + 10 end
 
   local opt = { relative = "cursor", row = top, col = left, width = width, height = height, style = 'minimal',
     focusable = false }
@@ -190,9 +178,8 @@ function I:PastImage()
 end
 
 I.close = function()
-  if #I.float == 0 then
-    return
-  end
+  if #I.float == 0 then return end
+
   for i, value in pairs(I.float) do
     vim.api.nvim_win_close(value, true)
     I.float[i] = nil
