@@ -268,7 +268,7 @@ ok看到这里已经默认你已经完成以上的配置了
 
 #### DEBUG
 
-从 ~~[vimspector](https://github.com/puremourning/vimspector)~~ 过度到[nvim-dap](https://github.com/mfussenegger/nvim-dap) 
+从 ~~[vimspector](https://github.com/puremourning/vimspector)~~ 过度到 [nvim-dap](https://github.com/mfussenegger/nvim-dap)  
 
 | 快捷键     | 行为                |
 |------------|---------------------|
