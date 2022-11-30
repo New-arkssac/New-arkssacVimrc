@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "c",
+      "request": "launch",
+      "name": "Launch clangd",
+      "program": "${fileBasenameNoExtension}",
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": true
+    }
+  ]
+}

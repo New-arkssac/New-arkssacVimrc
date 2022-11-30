@@ -93,13 +93,12 @@ local system = {
   Darwin = "mac"
 }
 local server = {
-  lua = "sumneko_lua",
-  go = "gopls",
-  json = "jsonls",
+  lua = { "sumneko_lua", {} },
+  go = { "gopls", { go = { "go" } } },
+  json = { "jsonls", {} },
   -- java = "jdtls",
-  python = "pyright",
-  c = "clangd",
-  cpp = "clangd"
+  python = { "pyright", { python = { "python" } } },
+  c = { "clangd", { c = { "c" } } },
 }
 
 G.lspserver = server
@@ -134,7 +133,6 @@ local lib = {
   "lib.alpha",
   "lib.cmp",
   "lib.translator",
-  "lib.lsp",
 }
 
 G.setup = function()

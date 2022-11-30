@@ -1,0 +1,9 @@
+[file-run]
+command:python=.nvim/venv/bin/python "$(VIM_FILEPATH)"
+command:python=/bin/python "$(VIM_FILEPATH)"
+cwd=$(VIM_FILEDIR)
+output=terminal
+pos=TAB
+
+errorformat=%f:%l:%m
+save=2

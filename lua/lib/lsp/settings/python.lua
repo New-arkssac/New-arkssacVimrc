@@ -1,7 +1,7 @@
-P = {}
+PY = {}
 
 local opts = { noremap = true, silent = true }
-P.on_attach = require "lib.lsp.settings.attach".setup({
+PY.on_attach = require "lib.lsp.settings.attach".setup({
   { "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts },
   { "n", "<F3>", "<Cmd>lua require'dap'.step_into()<CR>", opts },
   { "n", "<F4>", "<Cmd>lua require'dap'.step_over()<CR>", opts },
@@ -29,7 +29,7 @@ P.on_attach = require "lib.lsp.settings.attach".setup({
   { "n", "s\\", ":ProjectInitialization<CR>", opts },
 })
 
-P.config = {
+PY.config = {
   settings = {
     python = {
       analysis = {
@@ -43,4 +43,4 @@ P.config = {
 
 
 
-return P
+return PY

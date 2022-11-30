@@ -9,6 +9,7 @@ local setkeymap = {
   { map, "s", "<nop>", opt },
   { "n", "S", ":w<CR>", opt },
   { "n", "Q", ":q<CR>", opt },
+  { "n", "<A-s>k", ":e $MYVIMRC<CR>", opt },
   { "n", "sr", ":source $MYVIMRC<CR>", opt },
   { "n", "sh", ":set nosplitright<CR>:vsplit<CR>", opt },
   { "n", "sk", ":set splitright<CR>:split<CR>", opt },

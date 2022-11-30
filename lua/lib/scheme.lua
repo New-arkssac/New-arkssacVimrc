@@ -56,9 +56,10 @@ local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
 if not status_ok then print("colorscheme " .. scheme .. " not found!") end
 
 local bar = function()
-  local sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
+  -- local sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
   -- local sbar = { '', '', '', '', '', '', '', '', '', '', '' }
   -- local sbar = { '', '','', '', '', '', '', '', '', '', '', '', '' }
+  local sbar = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ', '🌑 '}
   local curr_line = vim.api.nvim_win_get_cursor(0)[1]
   local lines = vim.api.nvim_buf_line_count(0)
   local i = math.floor((curr_line - 1) / lines * #sbar) + 1

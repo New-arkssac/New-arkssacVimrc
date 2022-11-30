@@ -37,15 +37,10 @@ local adapter = {
     local port = 38697
     local opts = {
       stdio = { stdin, stdout, stderr },
-      -- args = { "--", G.home .. '/.local/share/nvim/mason/bin/dlv', "debug", "--listen=127.0.0.1:" .. port, "--headless",
-        -- "--log", "--api-version=2", "--accept-multiclient" },
       args = G.info[G.system][G.os].cmd.dapargs,
-      -- args = { "debug", "-l", "127.0.0.1:" .. port, "--headless", "--log", "--api-version=2", "--check-go-version=false" },
       detached = true
     }
     handle, pid_or_err = vim.loop.spawn(G.info[G.system][G.os].cmd.terminal, opts, function(code)
-      -- handle, pid_or_err = vim.loop.spawn(G.home .. '/.local/share/nvim/mason/bin/dlv', opts, function(code)
-      -- handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
       stdin:close()
       stderr:close()
       stdout:close()
@@ -87,66 +82,6 @@ local adapter = {
     options = {
       detached = false
     }
-  }
-}
-local configurations = {
-  python = {
-    {
-      type = 'python';
-      request = 'launch';
-      name = "Launch file";
-      program = "${file}";
-      pythonPath = function()
-        local cwd = vim.fn.getcwd()
-        if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
-          return cwd .. '/venv/bin/python'
-        elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
-          return cwd .. '/.venv/bin/python'
-        else
-          return '/usr/bin/python'
-        end
-      end;
-      console = "integratedTerminal"
-    },
-  },
-  go = {
-    {
-      type = "go",
-      name = "Debug workspace",
-      request = "attach",
-      program = "${workspaceFolder}",
-      mode = "remote",
-      remotePath = "${workspaceFolder}",
-    },
-    {
-      type = "go",
-      name = "Debug file",
-      request = 'attach';
-      mode = "remote",
-      remotePath = "${fileDirname}",
-      program = "${fileDirname}",
-    },
-  },
-  c = {
-    {
-      name = "Launch current file",
-      type = "c",
-      request = "launch",
-      program = "${fileBasenameNoExtension}",
-      cwd = '${workspaceFolder}',
-      stopAtEntry = true,
-    },
-    {
-      name = "Launch appoint file",
-      type = "c",
-      request = "launch",
-      program = function() return vim
-            .fn
-            .input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-      end,
-      cwd = '${workspaceFolder}',
-      stopAtEntry = true,
-    },
   }
 }
 
@@ -214,8 +149,8 @@ local require_ok, setting = pcall(require, "lib.lsp.settings." .. ft)
 if not require_ok then return end
 
 vim.schedule(function()
-  local apter, conf = adapter[ft], configurations[ft]
-  if apter == nil or conf == nil then return end
+  local apter = adapter[ft]
+  if apter == nil then return end
 
   local dap = require 'lib.lsp.settings.dap'
   dap.setup()
@@ -223,15 +158,14 @@ vim.schedule(function()
   dap
       .dap
       .adapters[ft] = apter
-  dap
-      .dap
-      .configurations[ft] = conf
+
+  require "dap.ext.vscode".load_launchjs(".nvim/launch.json", lsp[2])
 end)
 
 local opt = require "lib.lsp.handle"
 opt.on_attach = setting.on_attach
 opts = vim.tbl_deep_extend("force", setting.config, opt)
 
-require("lspconfig")[lsp].setup(opts)
+require("lspconfig")[lsp[1]].setup(opts)
 vim.cmd [[command! -range Comm :lua M.comm()]]
 vim.cmd [[command! ProjectInitialization :lua P.projectInitialization()]]

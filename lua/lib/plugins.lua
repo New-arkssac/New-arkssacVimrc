@@ -72,10 +72,20 @@ return packer.startup(function(use)
   use 'hrsh7th/cmp-nvim-lua'
 
   -- LSP
-  use 'neovim/nvim-lspconfig'
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
-  use 'RRethy/vim-illuminate'
+  use { 'neovim/nvim-lspconfig', ft = { "go", "python", "lua", "c", "cpp", "java" , "json"},
+    requires = {
+      'jose-elias-alvarez/null-ls.nvim',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'RRethy/vim-illuminate'
+    },
+    config = function()
+      require "lib.lsp"
+    end }
+  -- use {'jose-elias-alvarez/null-ls.nvim', ft = { "go", "python", "lua", "c", "cpp", "java" }}
+  -- use {'williamboman/mason.nvim', ft = { "go", "python", "lua", "c", "cpp", "java" }}
+  -- use {'williamboman/mason-lspconfig.nvim', ft = { "go", "python", "lua", "c", "cpp", "java" }}
+  -- use {'RRethy/vim-illuminate', ft = { "go", "python", "lua", "c", "cpp", "java" }}
   use {
     'nvim-treesitter/nvim-treesitter',
     run = function()
@@ -83,7 +93,6 @@ return packer.startup(function(use)
       ts_update()
     end,
   }
-  use 'jose-elias-alvarez/null-ls.nvim'
 
   -- LusSnip
   use "L3MON4D3/LuaSnip"
