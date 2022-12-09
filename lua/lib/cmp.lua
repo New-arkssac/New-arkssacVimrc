@@ -99,12 +99,12 @@ cmp.setup({
     },
   },
   sources = cmp.config.sources({
-    { name = 'nvim_lsp', option = { show_autosnippets = true } },
+    { name = 'nvim_lsp'},
     { name = 'luasnip', option = { show_autosnippets = true } },
-    { name = 'buffer' },
-    { name = 'path' },
     { name = 'nvim_lsp_signature_help' },
-    { name = 'nvim_lua' }
+    { name = 'nvim_lua' },
+    { name = 'buffer' },
+    { name = 'path' }
   }),
   formatting = {
     fields = { "abbr", "kind", "menu" },

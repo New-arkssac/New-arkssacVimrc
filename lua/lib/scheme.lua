@@ -1,5 +1,5 @@
--- local scheme = "nordfox"
-local scheme = "nightfox"
+local scheme = "gruvbox"
+-- local scheme = "duskfox"
 local coloe_ok, schemecoloe = pcall(require, 'lualine.themes.' .. scheme)
 if not coloe_ok then
   schemecoloe = nil
@@ -23,34 +23,58 @@ local lspname = function()
   return msg
 end
 
+local getdate = function()
+  return os.date("%Y年%m月%d日 %H:%M:%S")
+end
 
-require('nightfox').setup({
-  options = {
-    compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
-    compile_file_suffix = "_compiled", -- Compiled file suffix
-    transparent         = false, -- Disable setting background
-    terminal_colors     = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-    dim_inactive        = false, -- Non focused panes set to alternative background
-    module_default      = true, -- Default enable value for modules
-    styles              = { -- Style to be applied to different syntax groups
-      comments = "italic", -- Value is any valid attr-list value `:help attr-list`
-      conditionals = "bold",
-      constants = "NONE",
-      functions = "bold",
-      keywords = "bold",
-      numbers = "italic",
-      operators = "NONE",
-      strings = "NONE",
-      types = "bold",
-      variables = "NONE",
-    },
-    inverse             = { -- Inverse highlight for different types
-      match_paren = false,
-      visual = true,
-      search = false,
-    },
-  },
+vim.o.background = "dark"
+require("gruvbox").setup({
+  undercurl = true,
+  underline = true,
+  bold = true,
+  italic = true,
+  strikethrough = true,
+  invert_selection = false,
+  invert_signs = false,
+  invert_tabline = false,
+  invert_intend_guides = false,
+  inverse = true, -- invert background for search, diffs, statuslines and errors
+  contrast = "", -- can be "hard", "soft" or empty string
+  overrides = {},
+  dim_inactive = false,
+  transparent_mode = false,
+  palette_overrides = {
+        bright_red = "#f86654"
+    }
 })
+
+-- require('nightfox').setup({
+  -- options = {
+    -- compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
+    -- compile_file_suffix = "_compiled", -- Compiled file suffix
+    -- transparent         = false, -- Disable setting background
+    -- terminal_colors     = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+    -- dim_inactive        = false, -- Non focused panes set to alternative background
+    -- module_default      = true, -- Default enable value for modules
+    -- styles              = { -- Style to be applied to different syntax groups
+      -- comments = "italic", -- Value is any valid attr-list value `:help attr-list`
+      -- conditionals = "bold",
+      -- constants = "NONE",
+      -- functions = "bold",
+      -- keywords = "bold",
+      -- numbers = "italic",
+      -- operators = "NONE",
+      -- strings = "NONE",
+      -- types = "bold",
+      -- variables = "NONE",
+    -- },
+    -- inverse             = { -- Inverse highlight for different types
+      -- match_paren = false,
+      -- visual = true,
+      -- search = false,
+    -- },
+  -- },
+-- })
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
 if not status_ok then print("colorscheme " .. scheme .. " not found!") end
@@ -59,7 +83,7 @@ local bar = function()
   -- local sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
   -- local sbar = { '', '', '', '', '', '', '', '', '', '', '' }
   -- local sbar = { '', '','', '', '', '', '', '', '', '', '', '', '' }
-  local sbar = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ', '🌑 '}
+  local sbar = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ', '🌑 ' }
   local curr_line = vim.api.nvim_win_get_cursor(0)[1]
   local lines = vim.api.nvim_buf_line_count(0)
   local i = math.floor((curr_line - 1) / lines * #sbar) + 1
@@ -210,9 +234,16 @@ require('lualine').setup {
         },
       },
     },
-    lualine_c = { { navic.get_location, cond = navic.is_available,
-      separator = { right = "" },
-    } }
+    lualine_c = {
+      { navic.get_location, cond = navic.is_available,
+        separator = { right = "" },
+      }
+    },
+    lualine_x = {
+      { getdate,
+        color = { fg = "#131a24", bg = G.ftcolor },
+      }
+    }
   },
   extensions = { 'quickfix', 'fzf', 'nvim-tree' }
 }

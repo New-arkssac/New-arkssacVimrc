@@ -23,6 +23,8 @@ PY.on_attach = require "lib.lsp.settings.attach".setup({
   -- { "n", "<C-q>", ":VimspectorReset<CR>", opts },
   -- { "n", "K", "<Plug>VimspectorBalloonEval", opts },
   { "n", "so", ":AsyncTaskEdit<CR>", opts },
+  { "n", "s[", ":lua ASYNC.edit()<CR>", opts },
+  { "n", "s]", ":lua Dap.editlc()<CR>", opts },
   { "n", "<LEADER>i", ":AsyncTask file-run<cr>", opts },
   { "n", "<LEADER>b", ":AsyncTask file-build<cr>", opts },
   { "n", "<LEADER>n", ":AsyncTask project-build<cr>", opts },

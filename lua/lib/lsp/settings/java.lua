@@ -63,6 +63,8 @@ local config = {
     { "n", "<C-q>", "<Cmd>lua Dap.close()<CR>", opts },
     { "n", "K", "<Cmd>lua require 'dapui'.eval()<CR>", opts },
     { "n", "so", ":AsyncTaskEdit<CR>", opts },
+    { "n", "s[", ":lua ASYNC.edit()<CR>", opts },
+    { "n", "s]", ":lua Dap.editlc()<CR>", opts },
     { "n", "<LEADER>i", ":AsyncTask file-run<cr>", opts },
     { "n", "<LEADER>b", ":AsyncTask file-build<cr>", opts },
     { "n", "<LEADER>n", ":AsyncTask project-build<cr>", opts },

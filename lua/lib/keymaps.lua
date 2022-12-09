@@ -6,7 +6,7 @@ local map = { "n", "v", "x" }
 
 local setkeymap = {
   { map, ";", ":", nil },
-  { map, "s", "<nop>", opt },
+  { "n", "s", "<nop>", opt },
   { "n", "S", ":w<CR>", opt },
   { "n", "Q", ":q<CR>", opt },
   { "n", "<A-s>k", ":e $MYVIMRC<CR>", opt },

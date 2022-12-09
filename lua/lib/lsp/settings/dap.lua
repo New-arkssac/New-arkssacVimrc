@@ -90,6 +90,29 @@ Dap.open = function()
   Dap.ui.open()
 end
 
+Dap.editlc = function()
+  local data = vim.fn.system("ls -a")
+  local nvim = data:find(".nvim")
+  if not nvim then
+    if vim.fn.getcwd() == G.home then
+      vim.notify("Not find .nvim", "warn", { title = "Dap" })
+      return
+    end
+
+    vim.cmd "cd .."
+    Dap.editlc()
+    vim.cmd("cd " .. G.pwd)
+    return
+  end
+
+  data = vim.fn.system("ls -a .nvim")
+  local json = data:find("launch.json")
+  if not json then
+    vim.notify("Not find .nvim", "warn", { title = "Dap" })
+    return
+  end
+  vim.cmd "tabnew .nvim/launch.json"
+end
 
 vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'CursorLineNr', linehl = '', numhl = '' })
 vim.fn.sign_define('DapStopped', { text = '', texthl = 'Character', linehl = '', numhl = '' })
