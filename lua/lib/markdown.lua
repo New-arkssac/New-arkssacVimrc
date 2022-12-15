@@ -6,7 +6,7 @@
 -- vim.g.mkdp_auto_close = 0
 -- vim.g.mkdp_command_for_global = 1
 O.addOpt {
-  { "g", "mkdp_browser", "chromium" },
+  { "g", "mkdp_browser", "chrome" },
   { "g", "mkdp_page_title", "「${name}」" },
   { "g", "mkdp_filetypes", { 'markdown', "vimwiki" } },
   { "g", "mkdp_theme", 'dark' },

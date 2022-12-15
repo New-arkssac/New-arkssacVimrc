@@ -1,9 +1,139 @@
-local scheme = "gruvbox"
--- local scheme = "duskfox"
-local coloe_ok, schemecoloe = pcall(require, 'lualine.themes.' .. scheme)
-if not coloe_ok then
-  schemecoloe = nil
-end
+-- local scheme = "gruvbox"
+-- local scheme = "dawnfox"
+local scheme = "meliora"
+
+local scheme_setup = {
+  ["nightfox"] = function()
+    require('nightfox').setup({
+      options = {
+        compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
+        compile_file_suffix = "_compiled", -- Compiled file suffix
+        transparent         = false, -- Disable setting background
+        terminal_colors     = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+        dim_inactive        = false, -- Non focused panes set to alternative background
+        module_default      = true, -- Default enable value for modules
+        styles              = { -- Style to be applied to different syntax groups
+          comments = "italic", -- Value is any valid attr-list value `:help attr-list`
+          conditionals = "bold",
+          constants = "NONE",
+          functions = "bold",
+          keywords = "bold",
+          numbers = "italic",
+          operators = "NONE",
+          strings = "NONE",
+          types = "bold",
+          variables = "NONE",
+        },
+        inverse             = { -- Inverse highlight for different types
+          match_paren = false,
+          visual = true,
+          search = false,
+        },
+      },
+    })
+  end,
+  ["dawnfox"] = function()
+    require('nightfox').setup({
+      options = {
+        compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
+        compile_file_suffix = "_compiled", -- Compiled file suffix
+        transparent         = false, -- Disable setting background
+        terminal_colors     = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+        dim_inactive        = false, -- Non focused panes set to alternative background
+        module_default      = true, -- Default enable value for modules
+        styles              = { -- Style to be applied to different syntax groups
+          comments = "italic", -- Value is any valid attr-list value `:help attr-list`
+          conditionals = "bold",
+          constants = "NONE",
+          functions = "bold",
+          keywords = "bold",
+          numbers = "italic",
+          operators = "NONE",
+          strings = "NONE",
+          types = "bold",
+          variables = "NONE",
+        },
+        inverse             = { -- Inverse highlight for different types
+          match_paren = false,
+          visual = true,
+          search = false,
+        },
+      },
+    })
+  end,
+  ["gruvbox"] = function()
+    vim.o.background = "dark"
+    require("gruvbox").setup({
+      undercurl = true,
+      underline = true,
+      bold = true,
+      italic = true,
+      strikethrough = true,
+      invert_selection = false,
+      invert_signs = false,
+      invert_tabline = false,
+      invert_intend_guides = false,
+      inverse = true, -- invert background for search, diffs, statuslines and errors
+      contrast = "", -- can be "hard", "soft" or empty string
+      overrides = {},
+      dim_inactive = false,
+      transparent_mode = false,
+      palette_overrides = {
+        bright_red = "#f86654"
+      }
+    })
+  end,
+  ["meliora"] = function()
+    require 'meliora'.setup({
+      dim_inactive = false,
+      color_set = 'mountain',
+      styles = {
+        comments = 'italic',
+        conditionals = 'NONE',
+        folds = 'NONE',
+        loops = 'NONE',
+        functions = 'bold',
+        keywords = 'bold',
+        strings = 'NONE',
+        variables = 'NONE',
+        numbers = 'italic',
+        booleans = 'NONE',
+        properties = 'NONE',
+        types = 'bold',
+        operators = 'NONE',
+      },
+      transparent_background = {
+        enabled = false,
+        floating_windows = false,
+        -- telescope = true,
+        file_tree = true,
+        cursor_line = true,
+        status_line = false,
+      },
+      plugins = {
+        cmp = true,
+        indent_blankline = true,
+        nvim_tree = {
+          enabled = true,
+          show_root = false,
+        },
+        -- telescope = {
+          -- enabled = true,
+          -- nvchad_like = true,
+        -- },
+        startify = true,
+      },
+    })
+  end
+}
+
+local setup = scheme_setup[scheme]
+if not setup then return end
+
+setup()
+
+local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
+if not status_ok then print("colorscheme " .. scheme .. " not found!") end
 
 local lspname = function()
   local msg = 'No Active Lsp'
@@ -27,57 +157,6 @@ local getdate = function()
   return os.date("%Y年%m月%d日 %H:%M:%S")
 end
 
-vim.o.background = "dark"
-require("gruvbox").setup({
-  undercurl = true,
-  underline = true,
-  bold = true,
-  italic = true,
-  strikethrough = true,
-  invert_selection = false,
-  invert_signs = false,
-  invert_tabline = false,
-  invert_intend_guides = false,
-  inverse = true, -- invert background for search, diffs, statuslines and errors
-  contrast = "", -- can be "hard", "soft" or empty string
-  overrides = {},
-  dim_inactive = false,
-  transparent_mode = false,
-  palette_overrides = {
-        bright_red = "#f86654"
-    }
-})
-
--- require('nightfox').setup({
-  -- options = {
-    -- compile_path        = vim.fn.stdpath("cache") .. "/nightfox",
-    -- compile_file_suffix = "_compiled", -- Compiled file suffix
-    -- transparent         = false, -- Disable setting background
-    -- terminal_colors     = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-    -- dim_inactive        = false, -- Non focused panes set to alternative background
-    -- module_default      = true, -- Default enable value for modules
-    -- styles              = { -- Style to be applied to different syntax groups
-      -- comments = "italic", -- Value is any valid attr-list value `:help attr-list`
-      -- conditionals = "bold",
-      -- constants = "NONE",
-      -- functions = "bold",
-      -- keywords = "bold",
-      -- numbers = "italic",
-      -- operators = "NONE",
-      -- strings = "NONE",
-      -- types = "bold",
-      -- variables = "NONE",
-    -- },
-    -- inverse             = { -- Inverse highlight for different types
-      -- match_paren = false,
-      -- visual = true,
-      -- search = false,
-    -- },
-  -- },
--- })
-
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. scheme)
-if not status_ok then print("colorscheme " .. scheme .. " not found!") end
 
 local bar = function()
   -- local sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
@@ -170,7 +249,7 @@ for i = 1, #hl do vim.api.nvim_set_hl(hl[i][1], hl[i][2], hl[i][3]) end
 
 require('lualine').setup {
   options = {
-    theme                = schemecoloe,
+    theme                = "auto",
     icons_enabled        = true,
     component_separators = { left = '', right = '' },
     section_separators   = { left = '', right = '' },

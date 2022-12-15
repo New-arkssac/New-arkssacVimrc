@@ -57,7 +57,11 @@ return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   -- theme
   use 'nvim-lualine/lualine.nvim'
-  -- use 'EdenEast/nightfox.nvim'
+  use {
+    'ramojus/meliora.nvim',
+    requires = { 'rktjmp/lush.nvim' }
+  }
+  use 'EdenEast/nightfox.nvim'
   use { "ellisonleao/gruvbox.nvim" }
   -- use { 'Everblush/everblush.nvim', as = 'everblush' }
   use 'SmiteshP/nvim-navic'
@@ -74,7 +78,7 @@ return packer.startup(function(use)
   use 'hrsh7th/cmp-nvim-lua'
 
   -- LSP
-  use { 'neovim/nvim-lspconfig', ft = { "go", "python", "lua", "c", "cpp", "java" , "json"},
+  use { 'neovim/nvim-lspconfig', ft = { "go", "python", "lua", "c", "cpp", "java", "json" },
     requires = {
       'jose-elias-alvarez/null-ls.nvim',
       'williamboman/mason.nvim',
@@ -160,13 +164,18 @@ return packer.startup(function(use)
   use 'junegunn/fzf.vim'
 
   -- vim-markdown
-  use { 'mzlogin/vim-markdown-toc', ft = { "vimwiki", "markdown" } }
-  use { 'dhruvasagar/vim-table-mode', ft = { "vimwiki", "markdown" } }
-  use({ "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-    config = function() require "lib.markdown" end,
-    ft = { "vimwiki", "markdown" } })
-  use { 'vimwiki/vimwiki', ft = { "vimwiki", "markdown" } }
+  -- use { 'mzlogin/vim-markdown-toc', ft = { "vimwiki", "markdown" } }
+  -- use { 'dhruvasagar/vim-table-mode', ft = { "vimwiki", "markdown" } }
+  -- use { "iamcco/markdown-preview.nvim",
+  -- run = function() vim.fn["mkdp#util#install"]() end,
+  -- config = function() require "lib.markdown" end,
+  -- ft = { "vimwiki", "markdown" } }
+  -- use { 'vimwiki/vimwiki', ft = { "vimwiki", "markdown" } }
+
+  -- use {
+  -- "nvim-neorg/neorg",
+  -- }
+
 
   -- async
   use { 'skywind3000/asynctasks.vim', ft = { "go", "python", "lua", "c", "cpp", "java" } }

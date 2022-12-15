@@ -133,6 +133,7 @@ local lib = {
   "lib.alpha",
   "lib.cmp",
   "lib.translator",
+  -- "lib.neorg",
 }
 
 G.setup = function()
