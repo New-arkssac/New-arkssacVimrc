@@ -6,8 +6,8 @@ local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
   sources = {
-    formatting.yapf,
     diagnostics.flake8.with({ extra_args = { "--max-line-length=500" } }),
+    formatting.black.with({ extra_args = { "--fast" } }),
     -- formatting.stylua,
     -- formatting.clang_format,
     -- diagnostics.clang_check,

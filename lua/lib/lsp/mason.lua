@@ -18,6 +18,7 @@ require("mason-lspconfig").setup({
     "jdtls",
     "pyright",
     "clangd",
+    "bashls",
   },
   automatic_installation = true,
 })

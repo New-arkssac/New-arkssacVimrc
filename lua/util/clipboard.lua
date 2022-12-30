@@ -4,7 +4,7 @@ I = {
 }
 
 local command = {
-  ["linux"] = { "xclip", "xclip -sel -c -t image/png -o > %s" },
+  ["linux"] = { "xclip", "xclip -sel c -t image/jpg -o > %s" },
   ["microsoft"] = { "powershell.exe", [[powershell.exe \(Get-Clipboard -Format Image\).Save\(\'%s\'\)]] },
   ["windows"] = { "powershell.exe", [[powershell.exe (Get-Clipboard -Format Image).Save('%s')]] },
 }
